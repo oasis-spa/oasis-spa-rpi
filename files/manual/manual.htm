@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+</head>
+
+<body>
+
+<p align="center"><u>Adding/Modifying MQTT Sensors (temp/humidity/water level)</u></p>
+
+<p>You can add as many MQTT devices as you'd like (until you run out of virtual GPIO pins on your Raspberry). Once configured the new sensor will  show readings on the main page of the website. </p>
+<p><br />
+  The whole process has a few steps and several files that need to be modified. Be sure to backup a copy of the file you&rsquo;re modifying  before you save it just in case you need to roll back. There is nothing too complicated to do, just make sure you get the formatting correct. </p>
+<p><br />
+  I use <a href="https://www.itead.cc/sonoff-th.html" target="new">Sonoff TH10</a> switches/sensors flashed with <a href="https://github.com/xoseperez/espurna" target="new">ESPurna  firmware.</a> ESPurna was chosen because  it is simple, and has the features needed. Other firmware may be used, but you&rsquo;ll  have to get into the code of the website to make sure the temperature output  setting can be formatted correctly. Other MQTT enabled hardware can be used,  but the same applies. You&rsquo;ll need to get into the code to correctly format the input  if it differs from plain text single line temp output. In my code, I&rsquo;m placing  the sensor name in the first line and the reading in the second. You can find  the relevant code in two files. </p>
+<p><br />
+  <strong>INPUT to FILE:</strong>  /www/html/cron_jobs/cron_min.php  line 25 and <br />
+  <strong>OUTPUT to SQL:</strong> /www/html/functions.php starting around line  159. We don&rsquo;t need to touch this if you&rsquo;re using ESPurna with Sonoff TH hardware.</p>
+<p><br />
+  <strong><em><u>Adding sensors to the web  interface</u></em></strong></p>
+<p>1. Copy the Sensor ID from espurna status screen to the right  of the Temperature reading. This will become the  Address of the sensor within the Tub website.
+</li>
+</p>
+<p><img src="clip_image002.jpg" alt="espurna sensor ID" width="624" height="118" border="0" /></p>
+<p>2. Create a unique folder with the Sensor  ID. Sensor ID/Address folder should be placed in &lsquo;Sensors&rsquo; folder. There  are several ways to do it. If your network isn&rsquo;t configured to find the DNS  name TUB-PI, then you can substitute the IP address like <a href="../../../../../192.168.1.60">\\192.168.1.60</a> or whatever the address is. You  can rename existing directories to suit your need if you&rsquo;re just modifying.<br />
+  <br />
+  <strong>From Putty:</strong> sudo  mkdir /var/log/sensors/SENSOR ID HERE<br />
+  <strong>UNC path:</strong>  <a href="../../../../sensors ">\\tub-pi\sensors</a> Create directory here. <br />
+</p>
+<br />
+3. Once you&rsquo;ve created the folder, the sensor will show up in  the web interface. <u>Navigate to Settings &gt; Sensors</u> &gt; click the  search button. Then click on the sensor name and fill in details as needed. Don&rsquo;t  change the &lsquo;Address&rsquo; field. Espurna Sensor ID now the same as Tub-Pi&rsquo;s Sensor  Address.  Repeat as necessary for all  sensors you plan on using.
+</p>
+<strong><em><u><br clear="all" />
+</u></em></strong>
+<p><strong><em><u>Updating the cron_min.php file. </u></em></strong></p>
+<p><br />
+  The cron_min file is how the web site records temperature  from the sensors. Once a minute it will take a new reading, write it to a file.  Later in the cron_min file it will place the reading in the database. By  default, I am using 3 sensors. Tub temp, Incoming temp, and ambient air temp. Incoming  and Ambient are not necessary for operation, but very useful for fine tuning  tub functions.</p>
+
+<p>1. Navigate to <a href="../../cron_jobs/">\\tub-pi\www\html\cron_jobs\</a> and  open cron_min.php. </li>
+</p>
+<p>2. In the /***** sensor value write*****/ section, place  sensor Address in the two lines. To modify the  existing sensors, replace the existing Address. To add additional sensors, copy  the three lines and modify accordingly. </p>
+<p>/**** [PUT SENSOR NAME/FUNCTION HERE FOR EASY IDENTIFICATION]  ****/    <br /> <br />
+  echo file_put_contents(&quot;/var/log/sensors/28FF55FA83170400/w1_slave&quot;,&quot;Current Tub  Temperature \n&quot;);<br /> <br />
+exec('curl -s http://192.168.1.63/api/temperature?apikey=9E2CA07C2C799F9C  &gt;&gt; /var/log/sensors/28FF55FA83170400/w1_slave');</p>
+<p>3. Replace the new API  KEY in the URL. The sensors API key can be found within ESPurna &gt;  Admin section.</p>
+<p>4. Change the IP address of your Sensor. You should know this  by now &#128522; 
+</p>
+5. Save the file, and go back to the main screen of  the website. It may take a minute to update, but you should see sensor values  show up if all your hardware is on and functioning.
+<p><img src="clip_image004.jpg" alt="main" width="720" height="515" border="0" /></p>
+<p>&nbsp;</p>
+</body>
+</html>
