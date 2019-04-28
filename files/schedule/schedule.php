@@ -303,24 +303,24 @@ return;
 
 echo "<table width=\"80%\">";
 echo "<tr>";
-echo "  <td width=\"10%\"><span class=\"bg\"> Device </span></td>";
-echo "  <td width=\"10%\"><span class=\"bg\"> Time </span></td>";
-echo "  <td width=\"5%\"><span class=\"bg\"> On/Off </span></td>";
-echo "  <td width=\"10%\"><span class=\"bg\"> State </span></td>";
-echo "	<td width=\"5%\"><span class=\"bg\"> DB </span></td>";
+echo "  <td width=\"10%\"> Device: </td>";
+echo "  <td width=\"20%\"> Time: </td>";
+echo "  <td width=\"10%\"> On/Off: </td>";
+echo "  <td width=\"10%\"> State: </td>";
+echo "	<td width=\"5%\"> DB: </td>";
 echo "</tr>";
 
 $sql		= "SELECT * FROM schedule WHERE id !='0' ORDER BY pin DESC";
 $query		= mysql_query($sql);
 while($schedule = mysql_fetch_array($query)) {
 
-$del = "<a href=\"index.php?p=SCHEDULE.main&a=del&id=".$schedule['id']."\"> <img src=\"images/delete.png\" width=\"20\" height=\"20\"></a>";
-$edit = "<a href=\"index.php?p=SCHEDULE.main&a=edit&id=".$schedule['id']."\"> <img src=\"images/edit.png\" width=\"20\" height=\"20\"></a>";
+$del = "<a href=\"index.php?p=SCHEDULE.main&a=del&id=".$schedule['id']."\"> <img src=\"images/delete.png\" width=\"20\" height=\"20\"> </a>";
+$edit = "<a href=\"index.php?p=SCHEDULE.main&a=edit&id=".$schedule['id']."\"> <img src=\"images/edit.png\" width=\"20\" height=\"20\"> </a>";
   
 echo "<tr>";
 echo "  <td width=\"20%\"> ".PinToName($schedule['pin'])." </td>";
-echo "  <td width=\"10%\"> ".$schedule['time']." </td>";
-echo "  <td width=\"5%\"> ".to_state($schedule['state'])." </td>";
+echo "  <td width=\"20%\"> ".$schedule['time']." </td>";
+echo "  <td width=\"10%\"> ".to_state($schedule['state'])." </td>";
 echo "  <td width=\"10%\">";
 if($schedule['active'] == "1") {
 echo "Enabled";   
@@ -340,7 +340,7 @@ echo "</table>";
 echo "<br/> <a href=\"index.php?p=SCHEDULE.main&a=new\"> <img src=\"images/add.png\" width=\"20\" height=\"20\"> </a> ";
 
 
-echo "<br/><p align=\"right\">  <a href=\"https://github.com/the-butterfry/Oasis-Spa/wiki\" target=\"_blank\"> <img src=\"./images/questionmark.png\"> </a> </p> ";
+echo "<br/><p align=\"right\">  <a href=\"./manual.html#time_schedule\" target=\"_blank\"> <img src=\"./images/questionmark.png\"> </a> </p> ";
 
 
 ?>

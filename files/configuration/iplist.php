@@ -64,7 +64,7 @@ $sql				= "SELECT * FROM iplist WHERE id !='0'";
 $query				= mysql_query($sql);
 while($iplist		= mysql_fetch_assoc($query)) { 
 
-$del  	= "<a href=\"index.php?p=CONF.iplist&a=del&id=".$iplist['id'] ."\"> <img src=\"images/delete.png\" width=\"20\" height=\"20\"></a>   ";
+$del  	= "<a href=\"index.php?p=CONF.iplist&a=del&id=".$iplist['id'] ."\"> <img src=\"images/delete.png\" width=\"20\" height=\"20\"> </a>   ";
 
 echo "<tr>";
 echo "  <td width=\"80%\"> ".$iplist['ip']." </td>";
@@ -76,7 +76,7 @@ echo "</tr>";
 echo "</table>";
 
 echo "<br/><a href=\"index.php?p=CONF.iplist&a=new\"> <img src=\"images/add.png\" width=\"20\" height=\"20\"> </a> ";
-echo "<br/><p align=\"right\">  <a href=\"https://github.com/the-butterfry/Oasis-Spa/wiki\" target=\"_blank\"> <img src=\"./images/questionmark.png\"> </a> </p> ";
+echo "<br/><p align=\"right\">  <a href=\"./manual.html#ip_list\" target=\"_blank\"> <img src=\"./images/questionmark.png\"> </a> </p> ";
 
 
 ?>

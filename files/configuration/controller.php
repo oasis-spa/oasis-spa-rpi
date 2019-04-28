@@ -41,7 +41,7 @@ $state			= addslashes($_POST['state']);
 $remarks		= addslashes($_POST['remarks']);
 
 if(empty($sensor_id) || empty($mark) || empty($temperature) || empty($relay)) { 
-alert("Please fill in all fields.");
+alert("Not all the fields where filled.");
 return;
 }
 
@@ -362,7 +362,7 @@ echo "  <td colspan=\"2\" width=\"100%\"> &nbsp; </td>";
 echo "</tr>";
 
 echo "<tr>";
-echo "  <td width=\"60%\"> Frost Protection: (F&deg;)</td>";
+echo "  <td width=\"60%\"> Frost Protection: (C&deg;)</td>";
 echo "	<td width=\"40%\"> <input type=\"text\" name=\"frost_temp\" value=\"".$config['frost_temp']."\">  </td>";		 
 echo "</tr>";
 
@@ -437,7 +437,7 @@ echo "  <td colspan=\"2\" width=\"100%\"> &nbsp; </td>";
 echo "</tr>";
 
 echo "<tr>";
-echo "  <td width=\"60%\"> Set Water Temperature: (F&deg;) </td>";
+echo "  <td width=\"60%\"> Set Pool Temperature: (C&deg;) </td>";
 echo "	<td width=\"40%\"> <input type=\"text\" name=\"set_temp\" value=\"".$config['set_temp']."\"> </td>";		 
 echo "</tr>";
 
@@ -446,30 +446,20 @@ echo "  <td colspan=\"2\" width=\"100%\"> &nbsp; </td>";
 echo "</tr>";
 
 echo "<tr>";
-echo "  <td width=\"60%\"> Deviation: (F&deg;) </td>";
+echo "  <td width=\"60%\"> Pool Temperature Deviation: (C&deg;) </td>";
 echo "	<td width=\"40%\"> <input type=\"text\" name=\"set_temp_dev\" value=\"".$config['set_temp_dev']."\"> </td>";		 
 echo "</tr>";
 
 echo "<tr>";
 echo "  <td colspan=\"2\" width=\"100%\"> &nbsp; </td>";		 
 echo "</tr>";
-
-echo "<tr>";
-echo "  <td width=\"60%\"> Pump Control: </td>";
-echo "  <td width=\"40%\"> <p>";
-echo "     <select name=\"pump_control\">";
-echo "       <option value=\"0\" "; if($config['pump_control'] == "0") { echo "selected";  } echo ">Off</option>"; 
-echo "       <option value=\"1\" "; if($config['pump_control'] == "1") { echo "selected";  } echo ">On</option>"; 
-echo "    </select>";
-echo " </p>This will turn pump on / off automatically with Auto Heater Control.</td>";			 
-echo "</tr>";
 echo "<tr>";
 echo "  <td colspan=\"2\" width=\"100%\"> &nbsp; </td>";		 
 echo "</tr>";
 
 
 echo "<tr>";
-echo "  <td width=\"60%\"> Over Heat Control: </td>";
+echo "  <td width=\"60%\"> OverHeat Control: </td>";
 echo "  <td width=\"40%\"> <p>";
 echo "     <select name=\"overheat_control\">";
 echo "       <option value=\"0\" "; if($config['overheat_control'] == "0") { echo "selected";  } echo ">Off</option>"; 
@@ -483,7 +473,7 @@ echo "  <td colspan=\"2\" width=\"100%\"> &nbsp; </td>";
 echo "</tr>";
 
 echo "<tr>";
-echo "  <td width=\"60%\"> Over Heat Control Sensor: </td>";
+echo "  <td width=\"60%\"> OverHeat Control Sensor: </td>";
 echo "  <td width=\"40%\"> <p>";
 echo "     <select name=\"overheat_sensor\">";
 $sql			= "SELECT * FROM sensors WHERE id !='0'";
@@ -500,10 +490,22 @@ echo "  <td colspan=\"2\" width=\"100%\"> &nbsp; </td>";
 echo "</tr>";
 
 echo "<tr>";
-echo "  <td width=\"60%\"> Over Heat Temperature: (F&deg;) </td>";
+echo "  <td width=\"60%\"> OverHeat Temperature: (C&deg;) </td>";
 echo "	<td width=\"40%\"> <input type=\"text\" name=\"overheat_temp\" value=\"".$config['overheat_temp']."\"> </td>";		 
 echo "</tr>";
 
+
+/*
+echo "<tr>";
+echo "  <td width=\"60%\"> Pump Control: </td>";
+echo "  <td width=\"40%\"> <p>";
+echo "     <select name=\"pump_control\">";
+echo "       <option value=\"0\" "; if($config['pump_control'] == "0") { echo "selected";  } echo ">Off</option>"; 
+echo "       <option value=\"1\" "; if($config['pump_control'] == "1") { echo "selected";  } echo ">On</option>"; 
+echo "    </select>";
+echo " </p>This will turn you're pump on / off while temperature controlling.</td>";			 
+echo "</tr>";
+*/
 echo "<tr>";
 echo "  <td colspan=\"2\" width=\"100%\"> &nbsp; </td>";		 
 echo "</tr>";
@@ -527,7 +529,7 @@ echo "  <td colspan=\"2\" width=\"100%\"> &nbsp; </td>";
 echo "</tr>";
 
 echo "<tr>";
-echo "  <td width=\"60%\"> Heater: </td>";
+echo "  <td width=\"60%\"> Relay Heater: </td>";
 echo "  <td width=\"40%\"> <p>";
 echo "     <select name=\"heater_relay\">";
 $sql			= "SELECT * FROM relays WHERE id !='0'";
@@ -544,7 +546,7 @@ echo "  <td colspan=\"2\" width=\"100%\"> &nbsp; </td>";
 echo "</tr>";
 
 echo "<tr>";
-echo "  <td width=\"60%\"> Pump: </td>";
+echo "  <td width=\"60%\"> Relay Pump: </td>";
 echo "  <td width=\"40%\"> <p>";
 echo "     <select name=\"pump_relay\">";
 $sql			= "SELECT * FROM relays WHERE id !='0'";
@@ -620,7 +622,7 @@ echo "	<td colspan=\"2\" width=\"100%\"> &nbsp; </td>";
 echo "</tr>";
 
 echo "<tr>";
-echo "	<td width=\"40%\">Device State: </td>";
+echo "	<td width=\"40%\">Device  State: </td>";
 echo "  <td width=\"60%\"> <p>";
 echo "     <select name=\"device_state\">";
 echo "       <option value=\"0\" "; if($data['relay_state'] == "0") { echo "selected";  } echo "> On </option>"; 
@@ -653,7 +655,7 @@ echo "	<td colspan=\"2\" width=\"100%\"> &nbsp; </td>";
 echo "</tr>";
 
 echo "<tr>";
-echo "	<td width=\"40%\"> Action </td>";
+echo "	<td width=\"40%\"> Go: </td>";
 echo "  <td width=\"60%\"> <p>";
 echo "     <select name=\"other_device_state\">";
 echo "       <option value=\"0\" "; if($data['other_device_state'] == "0") { echo "selected";  } echo "> On </option>"; 
@@ -764,7 +766,7 @@ echo "	<td colspan=\"2\" width=\"100%\"> &nbsp; </td>";
 echo "</tr>";
 
 echo "<tr>";
-echo "	<td width=\"40%\"> Action </td>";
+echo "	<td width=\"40%\"> Go: </td>";
 echo "  <td width=\"60%\"> <p>";
 echo "     <select name=\"other_device_state\">";
 echo "       <option value=\"0\"> On </option>"; 
@@ -810,25 +812,22 @@ return;
 //View Aera
 
 	
-echo "<a href=\"index.php?p=CONF.controller&a=edit_general\"> <img src=\"images/edit.png\" width=\"20\" height=\"20\"></a><br/> ";
+
 echo "<table width=\"50%\">";
+
 echo "<tr>";
 echo "  <td width=\"60%\"> Frost Protection:  </td>";
 echo "	<td width=\"40%\"> ".to_state_menu($config['frost_protection'])." </td>";		 
 echo "</tr>";
 
 echo "<tr>";
-echo "  <td width=\"60%\"> Trigger Temp: </td>";
-echo "	<td width=\"40%\"> ".$config['frost_temp']." F&deg; </td>";		 
+echo "  <td width=\"60%\"> Frost Protection: </td>";
+echo "	<td width=\"40%\"> ".$config['frost_temp']." C&deg; </td>";		 
 echo "</tr>";
 
 echo "<tr>";
 echo "  <td width=\"60%\"> Frost Sensor: </td>";
 echo "	<td width=\"40%\"> ".sensor_name($config['frost_sensor'])."  </td>";		 
-echo "</tr>";
-
-echo "<tr>";
-echo "	<td colspan=\"2\" width=\"100%\"> &nbsp; </td>";
 echo "</tr>";
 
 echo "<tr>";
@@ -851,41 +850,43 @@ echo "	<td width=\"40%\"> ".sensor_name($config['heater_sensor'])."  </td>";
 echo "</tr>";
 
 echo "<tr>";
-echo "  <td width=\"60%\"> Set Water Temperature: </td>";
-echo "	<td width=\"40%\"> ".$config['set_temp']." F&deg; </td>";		 
+echo "  <td width=\"60%\"> Set Pool Temperature: </td>";
+echo "	<td width=\"40%\"> ".$config['set_temp']." C&deg; </td>";		 
 echo "</tr>";
 
 echo "<tr>";
-echo "  <td width=\"60%\"> Deviation: </td>";
-echo "	<td width=\"40%\"> ".$config['set_temp_dev']." F&deg; </td>";		 
+echo "  <td width=\"60%\"> Pool Temperature Deviation: </td>";
+echo "	<td width=\"40%\"> ".$config['set_temp_dev']." C&deg; </td>";		 
 echo "</tr>";
-echo "<tr>";
-echo "  <td width=\"60%\"> Pump Control: </td>";
-echo "	<td width=\"40%\"> ".to_state_menu($config['pump_control'])." <br/></td>";			 
-echo " </tr>";
+
 echo "<tr>";
 echo "	<td colspan=\"2\" width=\"100%\"> &nbsp; </td>";
 echo "</tr>";
 
 echo "<tr>";
-echo "  <td width=\"60%\"> Over Heat Control: </td>";
+echo "  <td width=\"60%\"> OverHeat Control: </td>";
 echo "	<td width=\"40%\"> ".to_state_menu($config['overheat_control'])." </td>";		 
 echo "</tr>";
 
 echo "<tr>";
-echo "  <td width=\"60%\"> Over Heat Control Sensor: </td>";
+echo "  <td width=\"60%\"> OverHeat Control Sensor: </td>";
 echo "	<td width=\"40%\"> ".sensor_name($config['overheat_sensor'])."  </td>";		 
 echo "</tr>";
 
 echo "<tr>";
-echo "  <td width=\"60%\"> Over Heat Temperature: </td>";
-echo "	<td width=\"40%\"> ".$config['overheat_temp']." F&deg; </td>";		 
+echo "  <td width=\"60%\"> OverHeat Temperature: </td>";
+echo "	<td width=\"40%\"> ".$config['overheat_temp']." C&deg; </td>";		 
 echo "</tr>";
 
 echo "<tr>";
 echo "	<td colspan=\"2\" width=\"100%\"> &nbsp; </td>";
 echo "</tr>";
-
+/*
+echo "<tr>";
+echo "  <td width=\"60%\"> Pump Control: </td>";
+echo "	<td width=\"40%\"> ".to_state_menu($config['pump_control'])." </td>";			 
+echo "</tr>";
+*/
 echo "<tr>";
 echo "  <td width=\"60%\"> Record Temperature:  </td>";
 echo "	<td width=\"40%\"> ".to_state_menu($config['save_temp'])." </td>";		 
@@ -903,37 +904,39 @@ echo "</tr>";
 
 
 echo "</table>";
+echo "<br/><a href=\"index.php?p=CONF.controller&a=edit_general\"> <img src=\"images/edit.png\" width=\"20\" height=\"20\"> </a> ";
+
 
 echo "<br/> <br />";
-echo "<h1>Automatic Actions</h1>";
+echo "<h1>Automatic Temperature Control</h1>";
 
 
 echo "<table width=\"100%\">";
-echo "<h2><tr>";
-echo "  <td width=\"15%\"><span class=\"bg\">  When Sensor</span> </td>";
-echo "  <td width=\"5%\"><span class=\"bg\" >Is </span></td>";
-echo "  <td width=\"15%\"><span class=\"bg\" > Temp. </span></td>";
-echo "  <td width=\"20%\"><span class=\"bg\" > Device </span></td>";
-echo "	<td width=\"10%\"><span class=\"bg\" > Action </span></td>";
-//echo "	<td width=\"5%\"><span class=\"bg\" > &nbsp;</span> </td>";		 
-echo "	<td width=\"25%\"><span class=\"bg\" > Remarks </span></td>";
-echo "	<td width=\"5%\"><span class=\"bg\" > DB  </span></td>";
-echo "</tr></h2>";
+echo "<tr>";
+echo "  <td width=\"20%\"> Sensor: </td>";
+echo "  <td width=\"5%\"> < / > </td>";
+echo "  <td width=\"15%\"> Temp.: </td>";
+echo "  <td width=\"20%\"> Device: </td>";
+echo "	<td width=\"5%\"> Go: </td>";
+echo "	<td width=\"5%\"> &nbsp; </td>";		 
+echo "	<td width=\"25%\"> Remarks: </td>";
+echo "	<td width=\"5%\"> DB: </td>";
+echo "</tr>";
 
 $sql		= "SELECT * FROM temp_control WHERE id !='0'";
 $query		= mysql_query($sql);
 while($temp = mysql_fetch_array($query)) {
 
-$edit = "<a href=\"index.php?p=CONF.controller&a=edit&id=".$temp['id']."\"> <img src=\"images/edit.png\" width=\"15\" height=\"15\"></a>";
-$del = "<a href=\"index.php?p=CONF.controller&a=del&id=".$temp['id']."\"> <img src=\"images/delete.png\" width=\"15\" height=\"15\"></a>";
+$edit = "<a href=\"index.php?p=CONF.controller&a=edit&id=".$temp['id']."\"> <img src=\"images/edit.png\" width=\"20\" height=\"20\"> </a>";
+$del = "<a href=\"index.php?p=CONF.controller&a=del&id=".$temp['id']."\"> <img src=\"images/delete.png\" width=\"20\" height=\"20\"> </a>";
 
 echo "<tr>";
 echo "  <td width=\"20%\"> ".sensor_name($temp['sensor_id'])." </td>";
 echo "  <td width=\"5%\"> ".$temp['mark']." </td>";
-echo "  <td width=\"15%\"> ".$temp['value']." F&deg; </td>";
+echo "  <td width=\"15%\"> ".$temp['value']." C&deg; </td>";
 echo "  <td width=\"20%\"> ".PinToName($temp['switch'])."  </td>";
 echo "	<td width=\"5%\"> ".to_state($temp['state'])." </td>";		 
-//echo "	<td width=\"5%\"> &nbsp;";
+echo "	<td width=\"5%\"> &nbsp;";
 /*
 if($temp['push'] == "1") {
 	echo "<img src=\"images/pushover.png\" height=\"20\" width=\"20\" title=\"Push Notification On\"> ";
@@ -947,7 +950,7 @@ echo "</tr>";
 }
 echo "</table>";
 
-echo "<br/> <a href=\"index.php?p=CONF.controller&a=new\"> <img src=\"images/add.png\" width=\"20\" height=\"20\"></a> ";
+echo "<br/> <a href=\"index.php?p=CONF.controller&a=new\"> <img src=\"images/add.png\" width=\"20\" height=\"20\"> </a> ";
 
 /** Device Control **/
 
@@ -957,48 +960,48 @@ echo "<h1>Automatic Device Control</h1>";
 
 echo "<table width=\"100%\">";
 echo "<tr>";
-echo "  <td width=\"15%\"><span class=\"bg\"> Device </span></td>";
-echo "  <td width=\"5%\"><span class=\"bg\"> = </span></td>";
-echo "  <td width=\"10%\"><span class=\"bg\"> State </span></td>";
-echo "  <td width=\"10%\"><span class=\"bg\"> Device </span></td>";
-echo "	<td width=\"5%\"><span class=\"bg\"> Action </span></td>";		 
-//echo "	<td width=\"1%\"><span class=\"bg\"> &nbsp; </span></td>";
-echo "	<td width=\"40%\"><span class=\"bg\"> Remarks </span></td>";
-echo "	<td width=\"5%\"><span class=\"bg\"> DB </span></td>";
+echo "  <td width=\"20%\"> Device: </td>";
+echo "  <td width=\"5%\"> = </td>";
+echo "  <td width=\"15%\"> State: </td>";
+echo "  <td width=\"20%\"> Other Device: </td>";
+echo "	<td width=\"5%\"> Go: </td>";		 
+echo "	<td width=\"5%\"> &nbsp; </td>";
+echo "	<td width=\"25%\"> Remarks: </td>";
+echo "	<td width=\"5%\"> DB: </td>";
 echo "</tr>";
 
 $sql		= "SELECT * FROM device_control WHERE id !='0'";
 $query		= mysql_query($sql);
 while($dev = mysql_fetch_array($query)) {
 
-$edit = "<a href=\"index.php?p=CONF.controller&a=device_edit&id=".$dev['id']."\"> <img src=\"images/edit.png\" width=\"15\" height=\"15\"></a>";
-$del = "<a href=\"index.php?p=CONF.controller&a=device_del&id=".$dev['id']."\"> <img src=\"images/delete.png\" width=\"15\" height=\"15\"></a>";
+$edit = "<a href=\"index.php?p=CONF.controller&a=device_edit&id=".$dev['id']."\"> <img src=\"images/edit.png\" width=\"20\" height=\"20\"> </a>";
+$del = "<a href=\"index.php?p=CONF.controller&a=device_del&id=".$dev['id']."\"> <img src=\"images/delete.png\" width=\"20\" height=\"20\"> </a>";
 
 echo "<tr>";
-echo "  <td width=\"15%\"> ".PinToName($dev['relay_pin'])." </td>";
+echo "  <td width=\"20%\"> ".PinToName($dev['relay_pin'])." </td>";
 echo "  <td width=\"5%\"> = </td>";
-echo "  <td width=\"10%\"> ".to_state($dev['relay_state'])."  </td>";
-echo "  <td width=\"10%\"> ".PinToName($dev['other_relay_pin'])."  </td>";
+echo "  <td width=\"15%\"> ".to_state($dev['relay_state'])."  </td>";
+echo "  <td width=\"20%\"> ".PinToName($dev['other_relay_pin'])."  </td>";
 echo "	<td width=\"5%\"> ".to_state($dev['other_relay_state'])." </td>";	
-//echo "	<td width=\"5%\"> &nbsp";
+echo "	<td width=\"5%\"> &nbsp";
 /*
 if($dev['push'] == "1") {
 	echo "<img src=\"images/pushover.png\" height=\"20\" width=\"20\" title=\"Push Notification On\"> ";
 }
 */
 echo "  </td>"; 
-echo "	<td width=\"30%\"> ".$dev['remarks']." </td>";
+echo "	<td width=\"25%\"> ".$dev['remarks']." </td>";
 echo "	<td width=\"5%\"> $edit  $del </td>";	
 echo "</tr>";
 
 }
 echo "</table>";
 
-echo "<br/> <a href=\"index.php?p=CONF.controller&a=device_new\"> <img src=\"images/add.png\" width=\"20\" height=\"20\"></a> ";
+echo "<br/> <a href=\"index.php?p=CONF.controller&a=device_new\"> <img src=\"images/add.png\" width=\"20\" height=\"20\"> </a> ";
 
 
 
-echo "<br/><p align=\"right\">  <a href=\"https://github.com/the-butterfry/Oasis-Spa/wiki\" target=\"_blank\"> <img src=\"./images/questionmark.png\"> </a> </p> ";
+echo "<br/><p align=\"right\">  <a href=\"./manual.html#controller_settings\" target=\"_blank\"> <img src=\"./images/questionmark.png\"> </a> </p> ";
 
 
 

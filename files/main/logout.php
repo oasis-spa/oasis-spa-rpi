@@ -3,10 +3,10 @@
 
 session_destroy();
 
-echo "<br /><center>Be sure to turn off Automatic Control please! </center><br />";
-echo "<center><img src=\"images/off-logout.gif\" width=\"15%\" height=\"15%\"></center>";
+echo "<br /><center>Thanks for you're visit. </center><br />";
 
-echo " <META http-equiv=\"refresh\" content=\"5; URL=./index.php\"> ";
+
+echo " <META http-equiv=\"refresh\" content=\"2; URL=./index.php\"> ";
 
 exit;
 ?>

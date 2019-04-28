@@ -41,12 +41,11 @@ echo "<tr>";
 echo "  <td width=\"20%\"> Raspberry Model: </td>";
 echo "  <td width=\"80%\"> <p>";
 echo "     <select name=\"raspberry_type\">";
-echo "       <option value=\"Model A\" "; if($data['raspberry_type'] == "Model A") { echo "selected";  } echo ">Model A</option>"; 
-echo "       <option value=\"Model B\" "; if($data['raspberry_type'] == "Model B") { echo "selected";  } echo ">Model B</option>"; 
-echo "       <option value=\"Model B+\" "; if($data['raspberry_type'] == "Model B+") { echo "selected";  } echo ">Model B+</option>"; 
-echo "       <option value=\"Model 2b\" "; if($data['raspberry_type'] == "Model 2b") { echo "selected";  } echo ">Model 2B</option>";
-echo "       <option value=\"Model 3\" "; if($data['raspberry_type'] == "Model 3") { echo "selected";  } echo ">Model 3</option>";
-echo "       <option value=\"Model 3b\" "; if($data['raspberry_type'] == "Model 3b") { echo "selected";  } echo ">Model 3B</option>";
+echo "       <option value=\"A\" "; if($data['raspberry_type'] == "A") { echo "selected";  } echo ">A</option>"; 
+echo "       <option value=\"B\" "; if($data['raspberry_type'] == "B") { echo "selected";  } echo ">B</option>"; 
+echo "       <option value=\"B+\" "; if($data['raspberry_type'] == "B+") { echo "selected";  } echo ">B+</option>"; 
+echo "       <option value=\"B2\" "; if($data['raspberry_type'] == "B2") { echo "selected";  } echo ">B 2</option>";
+echo "       <option value=\"3\" "; if($data['raspberry_type'] == "3") { echo "selected";  } echo ">3</option>";
 echo "       <option value=\"Zero\" "; if($data['raspberry_type'] == "Zero") { echo "selected";  } echo ">Zero</option>"; 
 echo "    </select>";
 echo " </p> </td>";
@@ -214,7 +213,7 @@ echo "  <td width=\"100%\" colspan=\"2\"> &nbsp; </td>";
 echo "</tr>";
 
 echo "<tr>";
-echo "  <td width=\"100%\" colspan=\"2\"> <h1> Tablet Interface</h1> </td>";
+echo "  <td width=\"100%\" colspan=\"2\"> <h1> Tablet Controller Page</h1> </td>";
 echo "</tr>";
 
 echo "<tr>";
@@ -242,17 +241,17 @@ echo "  <td width=\"100%\" colspan=\"2\"> &nbsp; </td>";
 echo "</tr>";
 
 echo "<tr>";
-echo "  <td width=\"20%\"> Tablet Page: </td>";
+echo "  <td width=\"20%\"> Tablet Page Address: </td>";
 echo "  <td width=\"80%\"> <a href=\"http://".$_SERVER['SERVER_ADDR']."/tablet\" target=\"_blank\"> http://".$_SERVER['SERVER_ADDR']."/tablet </a> </td>";
 echo "</tr>";
 
 echo "<tr>";
-echo "  <td colspan=\"2\" width=\"100%\">  <br/><a href=\"index.php?p=CONF.main&a=edit\">  <img src=\"./images/edit.png\" width=\"32\" height=\"32\"></a> </td>";
+echo "  <td colspan=\"2\" width=\"100%\">  <br/><a href=\"index.php?p=CONF.main&a=edit\">  <img src=\"./images/edit.png\" width=\"32\" height=\"32\"> </a> </td>";
 echo "</tr>";
 
 echo "</table>";
 
-echo "<br/><p align=\"right\">  <a href=\"https://github.com/the-butterfry/Oasis-Spa/wiki\" target=\"_blank\"> <img src=\"./images/questionmark.png\"> </a> </p> ";
+echo "<br/><p align=\"right\">  <a href=\"./manual.html#controller_main\" target=\"_blank\"> <img src=\"./images/questionmark.png\"> </a> </p> ";
 
    
 ?>

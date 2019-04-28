@@ -43,7 +43,7 @@ alert("User Added.");
 return;
 }
 
-echo "<table width=\"60%\"> ";
+echo "<table width=\"50%\"> ";
 echo "<form method=\"post\" action=\"\">";
 echo "<tr>";
 echo "  <td width=\"40%\">Username: </td>";
@@ -133,7 +133,7 @@ alert("User Changed.");
 return;
 }
 
-echo "<table width=\"60%\"> ";
+echo "<table width=\"50%\"> ";
 echo "<form method=\"post\" action=\"\">";
 echo "<tr>";
 echo "  <td width=\"40%\">Username: </td>";
@@ -196,7 +196,7 @@ return;
 
 
 
-echo "<table width=\"90%\"> ";
+echo "<table width=\"80%\"> ";
 echo "<tr>";
 echo "  <td width=\"20%\"> Username:  </td>";
 echo "  <td width=\"40%\"> Email:  </td>";
@@ -213,8 +213,8 @@ $sql				= "SELECT * FROM users WHERE id !='0' ORDER BY id ASC";
 $query				= mysql_query($sql);
 while($user 		= mysql_fetch_assoc($query)) { 
 
-$edit 	= "<a href=\"index.php?p=CONF.users&a=edit&id=".$user['id'] ."\"> <img src=\"images/edit.png\" width=\"20\" height=\"20\"></a>   ";
-$del  	= "<a href=\"index.php?p=CONF.users&a=del&id=".$user['id'] ."\"> <img src=\"images/delete.png\" width=\"20\" height=\"20\"></a>   ";
+$edit 	= "<a href=\"index.php?p=CONF.users&a=edit&id=".$user['id'] ."\"> <img src=\"images/edit.png\" width=\"20\" height=\"20\"> </a>   ";
+$del  	= "<a href=\"index.php?p=CONF.users&a=del&id=".$user['id'] ."\"> <img src=\"images/delete.png\" width=\"20\" height=\"20\"> </a>   ";
 
 echo "<tr>";
 echo "  <td width=\"20%\"> ".$user['username']." </td>";

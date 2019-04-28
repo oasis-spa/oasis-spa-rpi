@@ -2,11 +2,9 @@
 <head>
 <title>Tablet View</title>
   <link rel="stylesheet" href="../css/tablet.css">
-<link rel="stylesheet"
-      href="https://fonts.googleapis.com/css?family=Font+Name">
-
-
 </head>
+
+
 <?php
   
 Include "../config.php";
@@ -120,8 +118,8 @@ $current_temp = $sensor['temperature'];
 
 
 
-$min_temp = $config['set_temp'] - 0.5;
-$max_temp = $config['set_temp'] + 0.5;
+$min_temp = $config['set_temp'] - 0.1;
+$max_temp = $config['set_temp'] + 0.1;
 
 $min_temp2 = $config['set_temp'] - 1;
 $max_temp2 = $config['set_temp'] + 1;

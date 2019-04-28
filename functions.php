@@ -36,6 +36,7 @@ echo " </form>";
 echo " </table>";
 }
 
+
 /** This is for GPIO , changed 0 to ON / 1 to OFF otherwise the relays will be on when device disabled ***/
 function to_state($id)
 {
@@ -162,21 +163,6 @@ function GetTemp($address)
 	$sensor		= mysql_fetch_assoc($query);
 	
 //File to read
-
-$file = '/var/log/sensors/'.$address.'/sonoff_th';
-
-if (file_exists($file)) {
-							 
-//Read the file line by line
-$lines = file($file);
- 
-//Get the temp from second line 
-$temp = ($lines[1]);
- 
-} 
-
-return $temp + $sensor['calibration_value'];
-
 $file = '/sys/bus/w1/devices/'.$address.'/w1_slave';
 
 if (file_exists($file)) {
@@ -186,11 +172,9 @@ $lines = file($file);
  
 //Get the temp from second line 
 $temp = explode('=', $lines[1]);
-//$temp = ($lines[1]);
  
 //Setup some nice formatting (i.e. 21,3)
 $temp = number_format($temp[1] / 1000, 1, '.', '');
-$temp = $temp;
 
 /// Dont change 9999 because cronjob 10 minutes
 } else {
@@ -199,6 +183,9 @@ $temp = $temp;
 
 return $temp + $sensor['calibration_value'];
 }
+
+
+
 
 
 ?>

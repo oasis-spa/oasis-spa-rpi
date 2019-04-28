@@ -6,38 +6,23 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>Welcome To Luxury</title>
+  <title>Web App Controller</title>
   <link rel="stylesheet" href="css/logged.css">
-<link href="https://fonts.googleapis.com/css?family=Arima+Madurai|Bungee+Inline|Bungee+Outline|Bungee+Shade|Rakkas|Rasa|Shrikhand|Yatra+One|Space+Mono" rel="stylesheet">
 </head>
 <body>
-<script type="text/javascript" language="JavaScript">
-setTimeout(function () {    
-    window.location.href = '/index.php'; 
-},180000); 
-</script>
-  <style>
- html {  
-  background: url("images/bg2.jpg") no-repeat center center fixed; 
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-}
-</style>
+
   <section class="about">
     <p class="about-links">
-      <a href="./index.php" target="_parent">Main Page</a>
-	  <a href="./tablet" target="_parent">Mobile page</a>
+      <a href="./index.php" target="_parent">Home</a>
 	  <?php 
 	  if($this_user['rank'] >= "2") {
 	  ?>
-      <a href="./index.php?p=SCHEDULE.main" target="_parent">Scheduling</a>
-      <a href="./index.php?p=CONF.main" target="_parent">settings</a>
+      <a href="./index.php?p=SCHEDULE.main" target="_parent">Time Schedule</a>
+      <a href="./index.php?p=CONF.main" target="_parent">Configuration</a>
+      <a href="./index.php?p=LOGS.main" target="_parent">Logs</a>
 	  <?php
 	  } 
 	  ?>
-	  <a href="./index.php?p=info.main" target="_parent">Info</a>
       <a href="./index.php?p=logout" target="_parent">Logout</a>
 
 	  </p>
@@ -47,7 +32,7 @@ setTimeout(function () {
 
   <section class="container">
     <div class="login">
-      <h1>Oasis Luxury Home SPA</h1>
+      <h1>Web App Hottub Controller</h1>
       
 	  <!--- include from here --->
 	  

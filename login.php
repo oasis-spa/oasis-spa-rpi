@@ -54,23 +54,13 @@ return;
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
-  <title>Hot Damn! Tub</title>
+  <title>Pool Controller - Web App</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <style>
- html {  
-  background: url("images/loginbglarge.jpg") no-repeat center center fixed; 
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-}
-</style>
   <section class="container">
     <div class="login">
-      <h1>Login to Luxury</h1>
-	  <h2><center>Be sure to take a shower!</center></h2><p></p>
+      <h1>Login to Web App</h1>
       <form method="post" action="">
         <p><input type="text" name="login_username" value="" placeholder="Username"></p>
         <p><input type="password" name="login_password" value="" placeholder="Password"></p>

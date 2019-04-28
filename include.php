@@ -12,9 +12,6 @@ if($p == "")							{				include("./files/control/controller.php");				}
 else if($p == "logout")					{				include("./files/main/logout.php");	               		}
 else if($p == "about")					{				include("./files/main/about.php");	               		}
 else if($p == "control") 				{				include("./files/control/controller.php");				} 
-else if($p == "webcam.main") 			{				include("./files/main/webcam.php");						} 
-else if($p == "tablet.main") 			{				include("./tablet/index.php");							}
-else if($p == "info.main") 				{				include("./files/main/info.php");						}
 
 if($this_user['rank'] >= "2") {
 if($p == "")							{				include("./files/control/controller.php");				}
@@ -24,7 +21,7 @@ else if($p == "LOGS.power")				{				include("./files/logs/power.php");	         
 else if($p == "LOGS.curves")			{				include("./files/logs/curves.php");	               		}
 else if($p == "LOGS.push")				{				include("./files/logs/push.php");	               		}
 else if($p == "SCHEDULE.main")			{				include("./files/schedule/schedule.php");	      		}
-else if($p == "drinks") 				{				include("./files/main/drinks.php");							}
+
 
 
 else if($p == "CONF.main")				{				include("./files/configuration/main.php");       		}
