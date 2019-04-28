@@ -1,15 +1,16 @@
 <?php
 
-error_reporting (1);
+//error_reporting (1);
 
 include("config.php");
 include("functions.php");
+
 session_start();
 
 /**
 index.php File
 
-@ Realityhost.nl
+© @ Realityhost.nl
 
 Created at 7-1-2009  (dd/mm/yyyy) at 11:00
 **/
@@ -32,12 +33,12 @@ $password = $_SESSION['password'];
 if(!empty($_SESSION['username']) OR !empty($_SESSION['password'])) {
 
 $check_sql		= "SELECT * FROM users WHERE username='".$_SESSION['username']."' AND password='".$_SESSION['password']."' LIMIT 1";
-$check_query	= mysqli_query($m_connect,$check_sql) or die("Error, please close this session and try again.");
-$this_user		= mysqli_fetch_assoc($check_query);
+$check_query	= mysql_query($check_sql) or die("Error, please close this session and try again.");
+$this_user		= mysql_fetch_assoc($check_query);
 
 
 /** Login Check op echtheid **/
-if(mysqli_num_rows($check_query) != "1") {
+if(mysql_num_rows($check_query) != "1") {
 	session_destroy();
 /** Sesie is verwijderd en je gaat weer terug naar de login. **/
 echo " <META http-equiv=\"refresh\" content=\"1; URL=./index.php\"> ";
@@ -66,6 +67,7 @@ return;
 
 
 ?>
+
 
 
 

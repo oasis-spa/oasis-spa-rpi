@@ -4,8 +4,9 @@ Include "submenu.php";
 echo "<br/>";
 
 $sql	= "SELECT * FROM config WHERE id='1' LIMIT 1";
-$query	= mysqli_query($m_connect,$sql);
-$config	= mysqli_fetch_assoc($query);
+$query	= mysql_query($sql);
+$config	= mysql_fetch_assoc($query);	
+
 
 if(isset($_GET['a'])) {
 	
@@ -16,13 +17,13 @@ $id 	= addslashes($_GET['id']);
 }
 
 if($a == "del") {
-mysqli_query($m_connect,"DELETE FROM temp_control WHERE id='$id' LIMIT 1");
+mysql_query("DELETE FROM temp_control WHERE id='$id' LIMIT 1");
 alert("Temperature Control deleted.");
 return;
 }
 
 if($a == "device_del") {
-mysqli_query($m_connect,"DELETE FROM device_control WHERE id='$id' LIMIT 1");
+mysql_query("DELETE FROM device_control WHERE id='$id' LIMIT 1");
 alert("Device Control deleted.");
 return;
 }
@@ -44,7 +45,7 @@ alert("Please fill in all fields.");
 return;
 }
 
-mysqli_query($m_connect,"INSERT INTO temp_control (id,sensor_id,mark,value,switch,state,remarks) VALUES('','$sensor_id','$mark','$temperature','$relay','$state','$remarks')");
+mysql_query("INSERT INTO temp_control (id,sensor_id,mark,value,switch,state,remarks) VALUES('','$sensor_id','$mark','$temperature','$relay','$state','$remarks')");
 
 alert("Temperature Control Added.");
 
@@ -60,8 +61,8 @@ echo "  <td width=\"60%\"> <p>";
 echo "     <select name=\"sensor_id\">";
 
 $sql		= "SELECT * FROM sensors WHERE id !='0'";
-$query		= mysqli_query($m_connect,$sql);
-while($sensor	= mysqli_fetch_assoc($query)) {
+$query		= mysql_query($sql);
+while($sensor	= mysql_fetch_assoc($query)) {
 echo "       <option value=\"".$sensor['id']."\">".$sensor['name']."</option>"; 
 }
 echo "    </select>";
@@ -101,8 +102,8 @@ echo "  <td width=\"60%\"> <p>";
 echo "     <select name=\"relay\">";
 
 $sql			= "SELECT * FROM relays WHERE id !='0'";
-$query			= mysqli_query($m_connect,$sql);
-while($relay	= mysqli_fetch_assoc($query)) {
+$query			= mysql_query($sql);
+while($relay	= mysql_fetch_assoc($query)) {
 echo "       <option value=\"".$relay['pin']."\">".$relay['name']."</option>"; 
 }
 echo "    </select>";
@@ -155,8 +156,8 @@ if($a == "edit") {
 $id			= addslashes($_GET['id']);
 
 $sql		= "SELECT * FROM temp_control WHERE id ='$id' LIMIT 1";
-$query		= mysqli_query($m_connect,$sql);
-$data		= mysqli_fetch_assoc($query);
+$query		= mysql_query($sql);
+$data		= mysql_fetch_assoc($query);
 
 if(isset($_POST['submit'])) {
 
@@ -177,9 +178,9 @@ alert("Not all the fields where filled.");
 return;
 }
 
-//mysqli_query($m_connect,"INSERT INTO temp_control (id,sensor_id,mark,value,switch,state,remarks) VALUES('','$sensor_id','$mark','$temperature','$relay','$state','$remarks')");
+//mysql_query("INSERT INTO temp_control (id,sensor_id,mark,value,switch,state,remarks) VALUES('','$sensor_id','$mark','$temperature','$relay','$state','$remarks')");
 
-mysqli_query($m_connect,"UPDATE temp_control SET sensor_id='$sensor_id', mark='$mark', value='$temperature', switch='$relay', state='$state', remarks='$remarks' WHERE id='$id' LIMIT 1");
+mysql_query("UPDATE temp_control SET sensor_id='$sensor_id', mark='$mark', value='$temperature', switch='$relay', state='$state', remarks='$remarks' WHERE id='$id' LIMIT 1");
 /// mysql update
 alert("Temperature Control Changed.");
 return;
@@ -197,8 +198,8 @@ echo "  <td width=\"60%\"> <p>";
 echo "     <select name=\"sensor_id\">";
 
 $sql			= "SELECT * FROM sensors WHERE id !='0'";
-$query			= mysqli_query($m_connect,$sql);
-while($sensor	= mysqli_fetch_assoc($query)) {
+$query			= mysql_query($sql);
+while($sensor	= mysql_fetch_assoc($query)) {
 echo "       <option value=\"".$sensor['id']."\" "; if($sensor['id'] == $data['sensor_id']) { echo "selected";  } echo "> ".$sensor['name']." </option>"; 
 }
 echo "    </select>";
@@ -238,8 +239,8 @@ echo "  <td width=\"60%\"> <p>";
 echo "     <select name=\"relay\">";
 
 $sql			= "SELECT * FROM relays WHERE id !='0'";
-$query			= mysqli_query($m_connect,$sql);
-while($relay	= mysqli_fetch_assoc($query)) {
+$query			= mysql_query($sql);
+while($relay	= mysql_fetch_assoc($query)) {
 echo "       <option value=\"".$relay['pin']."\" "; if($relay['pin'] == $data['switch']) { echo "selected";  } echo ">  ".$relay['name']." </option>"; 
 }
 echo "    </select>";
@@ -337,7 +338,7 @@ $save_temp			= addslashes($_POST['save_temp']);
 $heater_relay		= addslashes($_POST['heater_relay']);
 $pump_relay			= addslashes($_POST['pump_relay']);
 
-mysqli_query($m_connect,"UPDATE config SET frost_protection='$frost_protection', frost_temp='$frost_temp', frost_sensor='$frost_sensor', cleaning_mode='$cleaning_mode', heater_control='$heater_control', heater_sensor='$heater_sensor', overheat_control='$overheat_control', overheat_sensor='$overheat_sensor', overheat_temp='$overheat_temp', pump_control='$pump_control', set_temp='$set_temp', set_temp_dev='$set_temp_dev', save_temp='$save_temp', heater_relay='$heater_relay', pump_relay='$pump_relay' WHERE id='1'");
+mysql_query("UPDATE config SET frost_protection='$frost_protection', frost_temp='$frost_temp', frost_sensor='$frost_sensor', cleaning_mode='$cleaning_mode', heater_control='$heater_control', heater_sensor='$heater_sensor', overheat_control='$overheat_control', overheat_sensor='$overheat_sensor', overheat_temp='$overheat_temp', pump_control='$pump_control', set_temp='$set_temp', set_temp_dev='$set_temp_dev', save_temp='$save_temp', heater_relay='$heater_relay', pump_relay='$pump_relay' WHERE id='1'");
 alert("Settings updated.");
 return;
 }
@@ -374,8 +375,8 @@ echo "  <td width=\"60%\"> Frost Sensor: </td>";
 echo "  <td width=\"40%\"> <p>";
 echo "     <select name=\"frost_sensor\">";
 $sql			= "SELECT * FROM sensors WHERE id !='0'";
-$query			= mysqli_query($m_connect,$sql);
-while($sensor	= mysqli_fetch_assoc($query)) {
+$query			= mysql_query($sql);
+while($sensor	= mysql_fetch_assoc($query)) {
 echo "       <option value=\"".$sensor['id']."\" "; if($config['frost_sensor'] == $sensor['id']) { echo "selected";  } echo "> ".$sensor['name']." </option>"; 
 }
 echo "    </select>";
@@ -423,8 +424,8 @@ echo "  <td width=\"60%\"> Heater Control Sensor: </td>";
 echo "  <td width=\"40%\"> <p>";
 echo "     <select name=\"heater_sensor\">";
 $sql			= "SELECT * FROM sensors WHERE id !='0'";
-$query			= mysqli_query($m_connect,$sql);
-while($sensor	= mysqli_fetch_assoc($query)) {
+$query			= mysql_query($sql);
+while($sensor	= mysql_fetch_assoc($query)) {
 echo "       <option value=\"".$sensor['id']."\" "; if($config['heater_sensor'] == $sensor['id']) { echo "selected";  } echo "> ".$sensor['name']." </option>"; 
 }
 echo "    </select>";
@@ -486,8 +487,8 @@ echo "  <td width=\"60%\"> Over Heat Control Sensor: </td>";
 echo "  <td width=\"40%\"> <p>";
 echo "     <select name=\"overheat_sensor\">";
 $sql			= "SELECT * FROM sensors WHERE id !='0'";
-$query			= mysqli_query($m_connect,$sql);
-while($sensor	= mysqli_fetch_assoc($query)) {
+$query			= mysql_query($sql);
+while($sensor	= mysql_fetch_assoc($query)) {
 echo "       <option value=\"".$sensor['id']."\" "; if($config['overheat_sensor'] == $sensor['id']) { echo "selected";  } echo "> ".$sensor['name']." </option>"; 
 }
 echo "    </select>";
@@ -530,8 +531,8 @@ echo "  <td width=\"60%\"> Heater: </td>";
 echo "  <td width=\"40%\"> <p>";
 echo "     <select name=\"heater_relay\">";
 $sql			= "SELECT * FROM relays WHERE id !='0'";
-$query			= mysqli_query($m_connect,$sql);
-while($relay	= mysqli_fetch_assoc($query)) {
+$query			= mysql_query($sql);
+while($relay	= mysql_fetch_assoc($query)) {
 echo "       <option value=\"".$relay['pin']."\" "; if($config['heater_relay'] == $relay['pin']) { echo "selected";  } echo "> ".$relay['name']." (".$relay['pin'].") </option>"; 
 }
 echo "    </select>";
@@ -547,8 +548,8 @@ echo "  <td width=\"60%\"> Pump: </td>";
 echo "  <td width=\"40%\"> <p>";
 echo "     <select name=\"pump_relay\">";
 $sql			= "SELECT * FROM relays WHERE id !='0'";
-$query			= mysqli_query($m_connect,$sql);
-while($relay	= mysqli_fetch_assoc($query)) {
+$query			= mysql_query($sql);
+while($relay	= mysql_fetch_assoc($query)) {
 echo "       <option value=\"".$relay['pin']."\" "; if($config['pump_relay'] == $relay['pin']) { echo "selected";  } echo "> ".$relay['name']." (".$relay['pin'].") </option>"; 
 }
 echo "    </select>";
@@ -576,8 +577,8 @@ if($a == "device_edit") {
 $id			= addslashes($_GET['id']);
 
 $sql		= "SELECT * FROM device_control WHERE id ='$id'";
-$query		= mysqli_query($m_connect,$sql);
-$data		= mysqli_fetch_assoc($query);
+$query		= mysql_query($sql);
+$data		= mysql_fetch_assoc($query);
 
 if(isset($_POST['submit'])) {
 
@@ -587,7 +588,7 @@ $other_device			= addslashes($_POST['other_device']);
 $other_device_state		= addslashes($_POST['other_device_state']);
 $remarks				= addslashes($_POST['remarks']);
 
-mysqli_query($m_connect,"UPDATE device_control SET relay_pin='$device', relay_state='$device_state', other_relay_pin='$other_device', other_relay_state='$other_device_state', remarks='$remarks' WHERE id='$id' LIMIT 1");
+mysql_query("UPDATE device_control SET relay_pin='$device', relay_state='$device_state', other_relay_pin='$other_device', other_relay_state='$other_device_state', remarks='$remarks' WHERE id='$id' LIMIT 1");
 
 alert("Device Control Changed.");
 
@@ -606,8 +607,8 @@ echo "  <td width=\"60%\"> <p>";
 echo "     <select name=\"device\">";
 
 $sql			= "SELECT * FROM relays WHERE id !='0'";
-$query			= mysqli_query($m_connect,$sql);
-while($device	= mysqli_fetch_assoc($query)) {
+$query			= mysql_query($sql);
+while($device	= mysql_fetch_assoc($query)) {
 echo "       <option value=\"".$device['pin']."\" "; if($device['pin'] == $data['relay_pin']) { echo "selected";  } echo "> ".$device['name']." </option>"; 
 }
 echo "    </select>";
@@ -639,8 +640,8 @@ echo "  <td width=\"60%\"> <p>";
 echo "     <select name=\"other_device\">";
 
 $sql			= "SELECT * FROM relays WHERE id !='0'";
-$query			= mysqli_query($m_connect,$sql);
-while($relay	= mysqli_fetch_assoc($query)) {
+$query			= mysql_query($sql);
+while($relay	= mysql_fetch_assoc($query)) {
 echo "       <option value=\"".$relay['pin']."\" "; if($relay['pin'] == $data['other_relay_pin']) { echo "selected";  } echo ">  ".$relay['name']." </option>"; 
 }
 echo "    </select>";
@@ -655,8 +656,8 @@ echo "<tr>";
 echo "	<td width=\"40%\"> Action </td>";
 echo "  <td width=\"60%\"> <p>";
 echo "     <select name=\"other_device_state\">";
-echo "       <option value=\"0\" "; if($data['other_device_state'] = "0") { echo "selected";  } echo "> On </option>"; 
-echo "       <option value=\"1\" "; if($data['other_device_state'] = "1") { echo "selected";  } echo "> Off </option>"; 
+echo "       <option value=\"0\" "; if($data['other_device_state'] == "0") { echo "selected";  } echo "> On </option>"; 
+echo "       <option value=\"1\" "; if($data['other_device_state'] == "1") { echo "selected";  } echo "> Off </option>"; 
 echo "    </select>";
 echo " </p> </td>";
 echo "</tr>";
@@ -698,7 +699,7 @@ $other_device			= addslashes($_POST['other_device']);
 $other_device_state		= addslashes($_POST['other_device_state']);
 $remarks				= addslashes($_POST['remarks']);
 
-mysqli_query($m_connect,"INSERT INTO device_control (id,relay_pin,relay_state,other_relay_pin,other_relay_state,remarks) VALUES('','$device','$device_state','$other_device','$other_device_state','$remarks')");
+mysql_query("INSERT INTO device_control (id,relay_pin,relay_state,other_relay_pin,other_relay_state,remarks) VALUES('','$device','$device_state','$other_device','$other_device_state','$remarks')");
 
 alert("Device Control Added.");
 
@@ -717,8 +718,8 @@ echo "  <td width=\"60%\"> <p>";
 echo "     <select name=\"device\">";
 
 $sql			= "SELECT * FROM relays WHERE id !='0'";
-$query			= mysqli_query($m_connect,$sql);
-while($device	= mysqli_fetch_assoc($query)) {
+$query			= mysql_query($sql);
+while($device	= mysql_fetch_assoc($query)) {
 echo "       <option value=\"".$device['pin']."\"> ".$device['name']." </option>"; 
 }
 echo "    </select>";
@@ -750,8 +751,8 @@ echo "  <td width=\"60%\"> <p>";
 echo "     <select name=\"other_device\">";
 
 $sql			= "SELECT * FROM relays WHERE id !='0'";
-$query			= mysqli_query($m_connect,$sql);
-while($relay	= mysqli_fetch_assoc($query)) {
+$query			= mysql_query($sql);
+while($relay	= mysql_fetch_assoc($query)) {
 echo "       <option value=\"".$relay['pin']."\">  ".$relay['name']." </option>"; 
 }
 echo "    </select>";
@@ -920,8 +921,8 @@ echo "	<td width=\"5%\"><span class=\"bg\" > DB  </span></td>";
 echo "</tr></h2>";
 
 $sql		= "SELECT * FROM temp_control WHERE id !='0'";
-$query		= mysqli_query($m_connect,$sql);
-while($temp = mysqli_fetch_array($query)) {
+$query		= mysql_query($sql);
+while($temp = mysql_fetch_array($query)) {
 
 $edit = "<a href=\"index.php?p=CONF.controller&a=edit&id=".$temp['id']."\"> <img src=\"images/edit.png\" width=\"15\" height=\"15\"></a>";
 $del = "<a href=\"index.php?p=CONF.controller&a=del&id=".$temp['id']."\"> <img src=\"images/delete.png\" width=\"15\" height=\"15\"></a>";
@@ -967,8 +968,8 @@ echo "	<td width=\"5%\"><span class=\"bg\"> DB </span></td>";
 echo "</tr>";
 
 $sql		= "SELECT * FROM device_control WHERE id !='0'";
-$query		= mysqli_query($m_connect,$sql);
-while($dev = mysqli_fetch_array($query)) {
+$query		= mysql_query($sql);
+while($dev = mysql_fetch_array($query)) {
 
 $edit = "<a href=\"index.php?p=CONF.controller&a=device_edit&id=".$dev['id']."\"> <img src=\"images/edit.png\" width=\"15\" height=\"15\"></a>";
 $del = "<a href=\"index.php?p=CONF.controller&a=device_del&id=".$dev['id']."\"> <img src=\"images/delete.png\" width=\"15\" height=\"15\"></a>";

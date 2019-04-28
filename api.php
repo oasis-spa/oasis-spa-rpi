@@ -16,8 +16,8 @@ if(isset($_GET['background'])) { $background = $_GET['background']; }
 
 
 ?>
-<html>
-<head>
+<html> 
+<head> 
 <title>API</title>
 <style>
 body {
@@ -32,10 +32,10 @@ body {
 
 ///***** Check for API key *****///
 $sql	 = "SELECT * FROM config WHERE id !='0' LIMIT 1";
-$query	 = mysqli_query($m_connect,$sql);
-$data	 = mysqli_fetch_assoc($query);
+$query	 = mysql_query($sql);
+$data	 = mysql_fetch_assoc($query);
 
-if($config['api'] = '0') {
+if($config['api'] == '0') {
 exit;
 }
 
@@ -73,7 +73,7 @@ if($action == "read_relay") {
 
 $relay		= addslashes($_GET['relay']);
 
-if(ReadPin($relay) == '0') {
+if(ReadPin($relay) == '0') { 
 echo 'On';
 } else {
 echo 'Off';
@@ -89,8 +89,8 @@ if($action == "read_all_sensors") {
 echo '<table width="20%">';
 
 $sql		= "SELECT * FROM sensors WHERE id!='0'";
-$query		= mysqli_query($m_connect,$sql);
-while($all	= mysqli_fetch_assoc($query)) {
+$query		= mysql_query($sql);
+while($all	= mysql_fetch_assoc($query)) {
 echo '<tr>';
 //echo '  <td width="33%"> '.$all['address'].' </td> ';
 echo '  <td width="80%"> '.$all['name'].' </td> ';
@@ -109,12 +109,12 @@ if($action == "read_all_relays") {
 echo '<table width="20%">';
 
 $sql		= "SELECT * FROM relays WHERE id!='0'";
-$query		= mysqli_query($m_connect, $sql);
-while($all	= mysqli_fetch_assoc($query)) {
+$query		= mysql_query($sql);
+while($all	= mysql_fetch_assoc($query)) {
 echo '<tr>';
-echo '  <td width="33%"> '.$all['pin'].' </td> ';
+//echo '  <td width="33%"> '.$all['pin'].' </td> ';
 echo '  <td width="80%"> '.$all['name'].' </td> ';
-echo '  <td width="20%"> '.to_state_menu($all['state']).' </td> ';
+echo '  <td width="20%"> '.to_state_menu($all['address']).' </td> ';
 echo '</tr>';
 }
 echo '</table>';
@@ -127,11 +127,11 @@ return;
 if($action == "get_pool_temp") {
 
 $sql		= "SELECT * FROM config WHERE id='1' LIMIT 1";
-$query		= mysqli_query($m_connect,$sql);
-$data		= mysqli_fetch_assoc($query);
+$query		= mysql_query($sql);
+$data		= mysql_fetch_assoc($query);
 
-echo $data['set_temp'];
-
+echo $data['set_temp'];	
+	
 return;
 }
 
@@ -139,9 +139,9 @@ return;
 
 if($action == "set_pool_temp") {
 
-if(isset($_GET['temp'])) {
+if(isset($_GET['temp'])) { 
 $temp		= $_GET['temp'];
-mysqli_query($m_connect,"UPDATE config SET set_temp='$temp' WHERE id='1' LIMIT 1");
+mysql_query("UPDATE config SET set_temp='$temp' WHERE id='1' LIMIT 1");
 echo 'Temperature Set';
 }
 
@@ -164,7 +164,7 @@ return;
 
 
 
-} ////end of if(isset
+} ////end of if(isset 
 
 ?>
 

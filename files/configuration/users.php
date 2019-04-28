@@ -18,7 +18,7 @@ if($a == "del") {
     alert("This user cannot be deleted.");
     return;
     }
-mysqli_query($m_connect,"DELETE FROM users WHERE id='$id' LIMIT 1");
+mysql_query("DELETE FROM users WHERE id='$id' LIMIT 1");
 alert("User deleted.");
 }
 
@@ -38,7 +38,7 @@ alert("Username could not be empty.");
 return;
 }
 
-mysqli_query($m_connect,"INSERT INTO users (id,username,password,email,rank) VALUES('','$username','$password','$email','$rank')");
+mysql_query("INSERT INTO users (id,username,password,email,rank) VALUES('','$username','$password','$email','$rank')");
 alert("User Added.");
 return;
 }
@@ -102,8 +102,8 @@ return;
 if($a == "edit") {
 
 $sql				= "SELECT * FROM users WHERE id ='$id'"; 
-$query				= mysqli_query($m_connect,$sql);
-$user				= mysqli_fetch_assoc($query);
+$query				= mysql_query($sql);
+$user				= mysql_fetch_assoc($query);
 
 if(isset($_POST['submit'])) {
 
@@ -124,10 +124,10 @@ return;
 
 if(!empty($password)) {
 $pass 	= md5($password);
-mysqli_query($m_connect,"UPDATE users SET password='$pass' WHERE id='$id' LIMIT 1");
+mysql_query("UPDATE users SET password='$pass' WHERE id='$id' LIMIT 1");
 }
 
-mysqli_query($m_connect,"UPDATE users SET username='$username', email='$email', rank='$rank' WHERE id='$id' LIMIT 1");
+mysql_query("UPDATE users SET username='$username', email='$email', rank='$rank' WHERE id='$id' LIMIT 1");
 
 alert("User Changed.");
 return;
@@ -210,8 +210,8 @@ echo "</tr>";
 
 
 $sql				= "SELECT * FROM users WHERE id !='0' ORDER BY id ASC"; 
-$query				= mysqli_query($m_connect,$sql);
-while($user 		= mysqli_fetch_assoc($query)) { 
+$query				= mysql_query($sql);
+while($user 		= mysql_fetch_assoc($query)) { 
 
 $edit 	= "<a href=\"index.php?p=CONF.users&a=edit&id=".$user['id'] ."\"> <img src=\"images/edit.png\" width=\"20\" height=\"20\"></a>   ";
 $del  	= "<a href=\"index.php?p=CONF.users&a=del&id=".$user['id'] ."\"> <img src=\"images/delete.png\" width=\"20\" height=\"20\"></a>   ";

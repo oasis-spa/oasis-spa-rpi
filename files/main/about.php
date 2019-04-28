@@ -1,8 +1,8 @@
 <?php
 
 $sql 			= "SELECT * FROM config WHERE id ='1' LIMIT 1";
-$query			= mysqli_query($m_connect, $sql);
-$data			= mysqli_fetch_assoc($query);
+$query			= mysql_query($sql);
+$data			= mysql_fetch_assoc($query);
 
 
 echo "<strong>OASIS LUXURY SPA</strong><br />";

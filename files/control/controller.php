@@ -2,13 +2,13 @@
 
 
 
-if(isset($_GET['a'])) {
+if(isset($_GET['a'])) { 
 
 $a = addslashes($_GET['a']);
 
 if($a == "new_temp")  {
 $new_temp = addslashes($_GET['temp']);
-mysqli_query($m_connect,"UPDATE config SET set_temp='$new_temp' WHERE id='1'");
+mysql_query("UPDATE config SET set_temp='$new_temp' WHERE id='1'");
 }
 
 if(isset($_GET['pin'])) {
@@ -34,7 +34,7 @@ $left		= addslashes($_POST['left']);
 $mid		= addslashes($_POST['mid']);
 $right		= addslashes($_POST['right']);
 
-mysqli_query($m_connect,"UPDATE config SET left_column='$left', mid_column='$mid', right_column='$right' WHERE id='1' LIMIT 1");
+mysql_query("UPDATE config SET left_column='$left', mid_column='$mid', right_column='$right' WHERE id='1' LIMIT 1");
 
 
 Alert("Layout changed.");
@@ -44,8 +44,8 @@ return;
 
 
 $sql		= "SELECT * FROM config WHERE id !='0'";
-$query		= mysqli_query($m_connect,$sql);
-$config		= mysqli_fetch_assoc($query);
+$query		= mysql_query($sql);
+$config		= mysql_fetch_assoc($query);
 
 
 echo "<table width=\"60%\">";
@@ -56,9 +56,9 @@ echo "	<td width=\"40%\">Left Column: </td>";
 echo "  <td width=\60%\"> <p>";
 echo "     <select name=\"left\">";
 $sql			= "SELECT * FROM relays WHERE id !='0'";
-$query			= mysqli_query($m_connect,$sql);
-while($relay	= mysqli_fetch_assoc($query)) {
-echo "       <option value=\"".$relay['pin']."\" "; if($config['left_column'] == $relay['pin']) { echo "selected";  } echo "> ".$relay['name']." </option>";
+$query			= mysql_query($sql);
+while($relay	= mysql_fetch_assoc($query)) {
+echo "       <option value=\"".$relay['pin']."\" "; if($config['left_column'] == $relay['pin']) { echo "selected";  } echo "> ".$relay['name']." </option>"; 
 }
 echo "    </select>";
 echo " </p> </td>";
@@ -73,9 +73,9 @@ echo "	<td width=\"40%\">Mid Column (Tub Temp.) </td>";
 echo "  <td width=\60%\"> <p>";
 echo "     <select name=\"mid\">";
 $sql			= "SELECT * FROM sensors WHERE id !='0'";
-$query			= mysqli_query($m_connect,$sql);
-while($sensor	= mysqli_fetch_assoc($query)) {
-echo "       <option value=\"".$sensor['address']."\" "; if($config['mid_column'] == $sensor['address']) { echo "selected";  } echo "> ".$sensor['name']." </option>";
+$query			= mysql_query($sql);
+while($sensor	= mysql_fetch_assoc($query)) {
+echo "       <option value=\"".$sensor['address']."\" "; if($config['mid_column'] == $sensor['address']) { echo "selected";  } echo "> ".$sensor['name']." </option>"; 
 }
 echo "    </select>";
 echo " </p> </td>";
@@ -90,9 +90,9 @@ echo "	<td width=\"40%\">Right Column: </td>";
 echo "  <td width=\60%\"> <p>";
 echo "     <select name=\"right\">";
 $sql			= "SELECT * FROM relays WHERE id !='0'";
-$query			= mysqli_query($m_connect,$sql);
-while($relay	= mysqli_fetch_assoc($query)) {
-echo "       <option value=\"".$relay['pin']."\" "; if($config['right_column'] == $relay['pin']) { echo "selected";  } echo "> ".$relay['name']." </option>";
+$query			= mysql_query($sql);
+while($relay	= mysql_fetch_assoc($query)) {
+echo "       <option value=\"".$relay['pin']."\" "; if($config['right_column'] == $relay['pin']) { echo "selected";  } echo "> ".$relay['name']." </option>"; 
 }
 echo "    </select>";
 echo " </p> </td>";
@@ -116,9 +116,9 @@ return;
 
 
 
-$sql			= "SELECT * FROM config WHERE id='1'";
-$query			= mysqli_query($m_connect,$sql);
-$config			= mysqli_fetch_assoc($query);
+$sql			= "SELECT * FROM config WHERE id='1'";	
+$query			= mysql_query($sql);
+$config			= mysql_fetch_assoc($query);
 
 $current_temp = GetTemp($config['mid_column']);
 
@@ -143,15 +143,15 @@ echo "	<td width=\"33%\"> <div class=\"pomp-circle\"> <br/><br /> ".PinToName($c
 echo "</tr>";
 echo "</table>";
 
-echo " <div class=\"editdiv\" > ";
+echo " <div class=\"editdiv\" > ";																											 
 echo " <span class=\"editdivr\" > <a href=\"index.php?p=control&a=edit\"> <img src=\"images/edit.png\" width=\"20\" height=\"20\"></a>  ";
 echo " <a href=\"tablet\" > <img class=\"editdivl\" src=\"images/tablet_icon.png\" width=\"20\"> </a>  ";
 echo " </div> ";
 
 
 /// Relay control
-echo "<br /><br />";
-echo "<h1> Oasis Spa Control </h1><br/>";
+echo "<br /><br />"; 
+echo "<h1> Oasis Spa Control </h1><br/>"; 
 echo "<table align=\"right\" width=\"50%\"> ";
 /****
 echo "<tr>";
@@ -169,9 +169,9 @@ echo "</tr>";
 echo "  <td align=\"center\"> OTHER TEMPERATURES <br /></td>";
 echo "</tr>";
 ****/
-$sql				= "SELECT * FROM sensors WHERE visible='yes' ORDER BY id ASC";
-$query				= mysqli_query($m_connect,$sql);
-while($sensor		= mysqli_fetch_assoc($query)) {
+$sql				= "SELECT * FROM sensors WHERE visible='yes' ORDER BY id ASC"; 
+$query				= mysql_query($sql);
+while($sensor		= mysql_fetch_assoc($query)) { 
 echo "<tr class=\"temps\" align=\"left\">";
 echo "  <td> ".$sensor['name']." </td>";
 echo "  <td> ".$sensor['temperature']." &#8457; </td>";
@@ -189,9 +189,9 @@ echo "<table width=\"50%\"> ";
 // echo "</tr>";
 
 
-$sql				= "SELECT * FROM relays WHERE visible='yes' ORDER BY pin ASC";
-$query				= mysqli_query($m_connect,$sql);
-while($relay		= mysqli_fetch_assoc($query)) {
+$sql				= "SELECT * FROM relays WHERE visible='yes' ORDER BY pin ASC"; 
+$query				= mysql_query($sql);
+while($relay		= mysql_fetch_assoc($query)) { 
 
 $on 	= "<a href=\"index.php?a=on&pin=".$relay['pin'] ."\"> <img class=\"tdbutton\" src=\"images/poweron.png\" width=\"45\" height=\"45\"> </a>   ";
 $off  	= "<a href=\"index.php?&a=off&pin=".$relay['pin'] ."\"> <img class=\"tdbutton\" src=\"images/poweroff.png\" width=\"45\" height=\"45\"> </a>   ";
@@ -200,11 +200,9 @@ echo "<tr>";
 echo "  <td width=\"30%\"><span class=\"fpfont\" > ".$relay['name']." </span></td>";
 echo "  <td width=\"30%\">";
 
-if(ReadPin($relay['pin']) == 1) {
-mysqli_query($m_connect, "UPDATE relays SET state = '0' WHERE id = ".$relay['id']." LIMIT 1");
+if(ReadPin($relay['pin']) == 1) { 
 echo $on;
 } else {
-mysqli_query($m_connect, "UPDATE relays SET state = '1' WHERE id = ".$relay['id']." LIMIT 1");
 echo $off;
 }
 echo "  </td>";
@@ -222,7 +220,7 @@ echo "</table>";
 echo ' <img src="images/poweron.png" width="20" height="20"> = OFF <br />';
 echo ' <img src="images/poweroff.png" width="20" height="20"> = ON ';
 
-
+ 
 
 // echo "<p align=\"right\">  <a href=\"https://app.weathercloud.net/d4800709094\" target=\"_blank\"> <img src=\"https://app.weathercloud.net/device/sticker/4800709094\" ></a> </p>";
 // echo "<p align=\"right\">  <a href=\"http://www.wunderground.com/weatherstation/WXDailyHistory.asp?ID=KWASEATT1944\" target=\"_blank\"> <img src=\"http://banners.wunderground.com/cgi-bin/banner/ban/wxBanner?bannertype=pws250&weatherstationcount=KWASEATT1944\" width=\"250\" height=\"150\" border=\"0\" alt=\"Weather Underground PWS KWASEATT1944\"></a> </p>";

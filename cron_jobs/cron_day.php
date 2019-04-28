@@ -18,6 +18,6 @@ require 'functions.php';
 
 
 
-mysqli_query($m_connect,"TRUNCATE TABLE login");
+mysql_query("TRUNCATE TABLE login");
 
 ?>

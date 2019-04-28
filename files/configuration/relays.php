@@ -15,7 +15,7 @@ $id 	= addslashes($_GET['id']);
 }
 
 if($a == "del") {
-mysqli_query($m_connect,"DELETE FROM relays WHERE id='$id' LIMIT 1");
+mysql_query("DELETE FROM relays WHERE id='$id' LIMIT 1");
 alert("Relay deleted.");
 }
 
@@ -23,8 +23,8 @@ alert("Relay deleted.");
 if($a == "edit") {
 
 $sql				= "SELECT * FROM relays WHERE id ='$id'"; 
-$query				= mysqli_query($m_connect,$sql);
-$relay				= mysqli_fetch_assoc($query);
+$query				= mysql_query($sql);
+$relay				= mysql_fetch_assoc($query);
 
 if(isset($_POST['submit'])) {
 
@@ -34,15 +34,15 @@ $pin	= addslashes($_POST['pin']);
 $tank	= addslashes($_POST['tank']);
 
 if($pin != $relay['pin']) { 
-$result =mysqli_query($m_connect,"SELECT * FROM relays WHERE pin = '$pin'");
-if(mysqli_num_rows($m_connect,$result) > 0) {
+$result =mysql_query("SELECT * FROM relays WHERE pin = '$pin'");
+if(mysql_num_rows($result) > 0) {
         Alert("Pin already in use."); 
 return;
 }
 }
 
 
-mysqli_query($m_connect,"UPDATE relays SET name='$name', pin='$pin', tank='$tank', power='$power' WHERE id='$id' LIMIT 1");
+mysql_query("UPDATE relays SET name='$name', pin='$pin', tank='$tank', power='$power' WHERE id='$id' LIMIT 1");
 alert("Relay changed.");
 return;
 }
@@ -81,8 +81,8 @@ echo "<tr>";
 echo "  <td width=\"50%\">Tankless Water Heater: </td>";
 echo "  <td width=\"40%\"> <p>";
 echo "     <select name=\"tank\">";
-echo "       <option value=\"no\" "; if($config['tank'] = "no") { echo "selected";  } echo ">No</option>"; 
-echo "       <option value=\"yes\" "; if($config['tank'] = "yes") { echo "selected";  } echo ">Yes</option>"; 
+echo "       <option value=\"no\" "; if($config['tank'] == "no") { echo "selected";  } echo ">No</option>"; 
+echo "       <option value=\"yes\" "; if($config['tank'] == "yes") { echo "selected";  } echo ">Yes</option>"; 
 echo "    </select></td>";
 echo "</tr>";
 
@@ -114,13 +114,13 @@ alert("Pin cannot be empty.");
 return;
 }
 
-$result =mysqli_query($m_connect,"SELECT * FROM relays WHERE pin = '$pin'");
-if(mysqli_num_rows($m_connect,$result) > 0) {
+$result =mysql_query("SELECT * FROM relays WHERE pin = '$pin'");
+if(mysql_num_rows($result) > 0) {
         Alert("Pin already in use."); 
 return;
 }
 
-mysqli_query($m_connect,"INSERT INTO relays (id,name,pin,tank) VALUES('','$name','$pin','$tank')");
+mysql_query("INSERT INTO relays (id,name,pin,tank) VALUES('','$name','$pin','$tank')");
 alert("Relay Added.");
 return;
 }
@@ -150,8 +150,8 @@ echo "<tr>";
 echo "  <td width=\"50%\">Tankless Water Heater: </td>";
 echo "  <td width=\"40%\"> <p>";
 echo "     <select name=\"tank\">";
-echo "       <option value=\"no\" "; if($config['tank'] = "no") { echo "selected";  } echo ">No</option>"; 
-echo "       <option value=\"yes\" "; if($config['tank'] = "yes") { echo "selected";  } echo ">Yes</option>"; 
+echo "       <option value=\"no\" "; if($config['tank'] == "no") { echo "selected";  } echo ">No</option>"; 
+echo "       <option value=\"yes\" "; if($config['tank'] == "yes") { echo "selected";  } echo ">Yes</option>"; 
 echo "    </select></td>";
 echo "</tr>";
 
@@ -189,8 +189,8 @@ echo "</tr>";
 
 
 $sql				= "SELECT * FROM relays WHERE id !='0' ORDER BY pin ASC"; 
-$query				= mysqli_query($m_connect,$sql);
-while($relay		= mysqli_fetch_assoc($query)) { 
+$query				= mysql_query($sql);
+while($relay		= mysql_fetch_assoc($query)) { 
 
 $edit 	= "<a href=\"index.php?p=CONF.relays&a=edit&id=".$relay['id'] ."\"> <img src=\"images/edit.png\" width=\"20\" height=\"20\"></a>   ";
 $del  	= "<a href=\"index.php?p=CONF.relays&a=del&id=".$relay['id'] ."\"> <img src=\"images/delete.png\" width=\"20\" height=\"20\"></a>   ";

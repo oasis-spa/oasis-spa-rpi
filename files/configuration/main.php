@@ -6,8 +6,8 @@ echo "<br/>";
 
 
 $sql 			= "SELECT * FROM config WHERE id='1' LIMIT 1";
-$query			= mysqli_query($m_connect,$sql);
-$data			= mysqli_fetch_assoc($query);
+$query			= mysql_query($sql);
+$data			= mysql_fetch_assoc($query);
 
 
    
@@ -27,7 +27,7 @@ $tablet				= addslashes($_POST['tablet']);
 $ip_check			= addslashes($_POST['ip_check']);
 $ip_range			= addslashes($_POST['ip_range']);
 
-mysqli_query($m_connect,"UPDATE config SET raspberry_type='$raspberry_type', api='$api', token='$token', tablet_view='$tablet', ip_check='$ip_check', ip_range='$ip_range' WHERE id='1' LIMIT 1");
+mysql_query("UPDATE config SET raspberry_type='$raspberry_type', api='$api', token='$token', tablet_view='$tablet', ip_check='$ip_check', ip_range='$ip_range' WHERE id='1' LIMIT 1");
 
 alert("Changes saved.");
 
@@ -47,7 +47,6 @@ echo "       <option value=\"Model B+\" "; if($data['raspberry_type'] == "Model 
 echo "       <option value=\"Model 2b\" "; if($data['raspberry_type'] == "Model 2b") { echo "selected";  } echo ">Model 2B</option>";
 echo "       <option value=\"Model 3\" "; if($data['raspberry_type'] == "Model 3") { echo "selected";  } echo ">Model 3</option>";
 echo "       <option value=\"Model 3b\" "; if($data['raspberry_type'] == "Model 3b") { echo "selected";  } echo ">Model 3B</option>";
-echo "       <option value=\"Model 3b+\" "; if($data['raspberry_type'] == "Model 3b+") { echo "selected";  } echo ">Model 3B+</option>";
 echo "       <option value=\"Zero\" "; if($data['raspberry_type'] == "Zero") { echo "selected";  } echo ">Zero</option>"; 
 echo "    </select>";
 echo " </p> </td>";
@@ -254,5 +253,9 @@ echo "</tr>";
 echo "</table>";
 
 echo "<br/><p align=\"right\">  <a href=\"https://github.com/the-butterfry/Oasis-Spa/wiki\" target=\"_blank\"> <img src=\"./images/questionmark.png\"> </a> </p> ";
- 
+
+   
 ?>
+   
+   
+   

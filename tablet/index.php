@@ -13,8 +13,8 @@ Include "../config.php";
 Include "../functions.php";
 
 $sql		= "SELECT * FROM config WHERE id='1' LIMIT 1";
-$query		= mysqli_query($m_connect,$sql);
-$config		= mysqli_fetch_assoc($query);
+$query		= mysql_query($sql);
+$config		= mysql_fetch_assoc($query);
 
 
 ///Tablet view enabled?
@@ -41,8 +41,8 @@ $accept = 1;
 }
 
 $sql			= "SELECT * FROM iplist";
-$query			= mysqli_query($m_connect,$sql);
-while($check 	= mysqli_fetch_assoc($query)) {
+$query			= mysql_query($sql);
+while($check 	= mysql_fetch_assoc($query)) {
 	
 if($check['ip'] == $ip) {
 	$accept = 1;
@@ -68,7 +68,7 @@ $a	= addslashes($_GET['a']);
 	
 if($a == "new_temp")  {
 $new_temp = addslashes($_GET['temp']);
-mysqli_query($m_connect,"UPDATE config SET set_temp='$new_temp' WHERE id='1'");
+mysql_query("UPDATE config SET set_temp='$new_temp' WHERE id='1'");
 }
 
 $pin 	= addslashes($_GET['pin']);
@@ -85,17 +85,17 @@ WritePin($pin,1);
 
 if($a == "autoheater")	 {
 	$state = $_GET['state'];
-mysqli_query($m_connect,"UPDATE config SET heater_control='$state' WHERE id='1'");
+mysql_query("UPDATE config SET heater_control='$state' WHERE id='1'");
 }
 
 if($a == "cleaning")	 {
 	$state = $_GET['state'];
-mysqli_query($m_connect,"UPDATE config SET cleaning_mode ='$state' WHERE id='1'");
+mysql_query("UPDATE config SET cleaning_mode ='$state' WHERE id='1'");
 }
 
 if($a == "frost")	 {
 	$state = $_GET['state'];
-mysqli_query($m_connect,"UPDATE config SET frost_protection ='$state' WHERE id='1'");
+mysql_query("UPDATE config SET frost_protection ='$state' WHERE id='1'");
 }
 	
 }
@@ -107,14 +107,14 @@ echo "  <td width=\"50%\" valign=\"top\"> ";
 //start colum 1
 
 $sql			= "SELECT * FROM config WHERE id='1'";	
-$query			= mysqli_query($m_connect,$sql);
-$config			= mysqli_fetch_assoc($query);
+$query			= mysql_query($sql);
+$config			= mysql_fetch_assoc($query);
 
 $mid_column = $config['mid_column'];
 
 $sql2			= "SELECT * FROM sensors WHERE address='$mid_column' LIMIT 1";	
-$query2			= mysqli_query($m_connect,$sql2);
-$sensor			= mysqli_fetch_assoc($query2);
+$query2			= mysql_query($sql2);
+$sensor			= mysql_fetch_assoc($query2);
 
 $current_temp = $sensor['temperature'];
 
@@ -162,8 +162,8 @@ echo "</tr>";
 
 
 $sql				= "SELECT * FROM relays WHERE id !='0' ORDER BY pin ASC"; 
-$query				= mysqli_query($m_connect,$sql);
-while($relay		= mysqli_fetch_assoc($query)) { 
+$query				= mysql_query($sql);
+while($relay		= mysql_fetch_assoc($query)) { 
 
 $on 	= "<a href=\"index.php?a=on&pin=".$relay['pin'] ."\"> <img src=\"../images/check_off.png\" height=\"24\"> </a>   ";
 $off  	= "<a href=\"index.php?a=off&pin=".$relay['pin'] ."\"> <img src=\"../images/check_on.png\" height=\"24\"> </a>   ";
@@ -173,11 +173,8 @@ echo "  <td width=\"30%\"> <p>".$relay['name']."</p> </td>";
 echo "  <td width=\"30%\">";
 
 if(ReadPin($relay['pin']) == 1) { 
-
-mysqli_query($m_connect, "UPDATE relays SET address = '0' WHERE id = ".$relay['id']." LIMIT 1"); 
 echo $on;
 } else {
-mysqli_query($m_connect, "UPDATE relays SET address = '1' WHERE id = ".$relay['id']." LIMIT 1");
 echo $off;
 }
 echo "  </td>";
@@ -206,8 +203,8 @@ echo "  <td width=\"100%\" colspan=\"2\"> <p>ALL TEMPERATURES </p> <br /></td>";
 echo "</tr>";
 
 $sql				= "SELECT * FROM sensors WHERE id !='0' ORDER BY id ASC"; 
-$query				= mysqli_query($m_connect,$sql);
-while($sensor		= mysqli_fetch_assoc($query)) { 
+$query				= mysql_query($sql);
+while($sensor		= mysql_fetch_assoc($query)) { 
 echo "<tr>";
 echo "  <td width=\"50%\"> <p>".$sensor['name']." </p></td>";
 echo "  <td width=\"40%\"> <p>".$sensor['temperature']." &#x2103; </p></td>";

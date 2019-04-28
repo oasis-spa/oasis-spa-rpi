@@ -1,17 +1,15 @@
 <?php
 
-
 if(isset($_POST['login_username'])) {
-$login_username		= mysqli_real_escape_string($m_connect,$_POST['login_username']);
-$login_password   	= mysqli_real_escape_string($m_connect,md5($_POST['login_password']));
-$clear_password		= mysqli_real_escape_string($m_connect,$_POST['login_password']);
+$login_username		= mysql_real_escape_string($_POST['login_username']);
+$login_password   	= mysql_real_escape_string(md5($_POST['login_password']));
 
-#$log_sql			= "SELECT id,username,password,ip FROM users WHERE username='$login_username' AND password='$login_password' LIMIT 1";
-$log_sql			= "SELECT id,username,password,ip FROM users WHERE username='$login_username' LIMIT 1";
-$log_mysql			= mysqli_query($m_connect, $log_sql) or die("Something went wrong, try it again later.");
-$log_user			= mysqli_fetch_assoc($log_mysql);
 
-if(mysqli_num_rows($log_mysql) != "0") {
+$log_sql			= "SELECT id,username,password,ip FROM users WHERE username='$login_username' AND password='$login_password' LIMIT 1";
+$log_mysql			= mysql_query($log_sql) or die("Something went wrong, try it again later.");
+$log_user			= mysql_fetch_assoc($log_mysql);
+
+if(mysql_num_rows($log_mysql) != "0") {
 	
 $_SESSION['username'] = $login_username;   /// sessie username setten
 $_SESSION['password'] = $login_password;   /// sessie password zetten
@@ -19,9 +17,9 @@ $_SESSION['ip']   	  = $ip; // sessie ip zetten.
 
 
 /** Login gegevens even opslaan in database **/
-  mysqli_query($m_connect,"INSERT INTO login (id,userid,ip,time) VALUES('','".$log_user['id']."','$ip','".time()."')");
-  /** Ip adres opslaan / koppelen aan de user **/
-  mysqli_query($m_connect,"UPDATE users SET ip='$ip' WHERE id='".$log_user['id']."' LIMIT 1");
+mysql_query("INSERT INTO login (id,userid,ip,time) VALUES('','".$log_user['id']."','$ip','".time()."')");
+/** Ip adres opslaan / koppelen aan de user **/
+mysql_query("UPDATE users SET ip='$ip' WHERE id='".$log_user['id']."' LIMIT 1");
 
 /** Login is goed , en nu gaan we doorverwijzen **/
 echo " <META http-equiv=\"refresh\" content=\"1; URL=./index.php\"> ";

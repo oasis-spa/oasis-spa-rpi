@@ -5,16 +5,16 @@ include "submenu.php";
 echo 'Calculated Power Usage. <br /><br />';
 
 if(isset($_GET['a'])) {
-
-$a		= addslashes($_GET['a']);
-
+	
+$a		= addslashes($_GET['a']);	
+	
 if($a == "reset") {
-mysqli_query($m_connect,"UPDATE relays SET minutes_power='0'");
-mysqli_query($m_connect,"UPDATE config SET used_power_date = NOW() WHERE id !='0'");
-Alert("Used KWH reset.");
+mysql_query("UPDATE relays SET minutes_power='0'");
+mysql_query("UPDATE config SET used_power_date = NOW() WHERE id !='0'");
+Alert("Used KWH reset.");	
 }
-
-
+	
+	
 }
 
 echo '<table width="70%"> ';
@@ -29,9 +29,9 @@ echo '		<td width="100%" colspan="3"> &nbsp; </td>';
 echo '</tr>';
 
 
-$sql			= "SELECT * FROM relays WHERE id !='0'";
-$query			= mysqli_query($m_connect,$sql);
-while($relay	= mysqli_fetch_assoc($query)) {
+$sql			= "SELECT * FROM relays WHERE id !='0'"; 
+$query			= mysql_query($sql);
+while($relay	= mysql_fetch_assoc($query)) {
 	$total = $relay['power'] * $relay['minutes_power'] / 60000;
 	$kwh += $total;
 echo '<tr>';
@@ -46,8 +46,8 @@ echo '<br/>';
 echo 'Total used KWH: '.round($kwh,2).' <br /><br />';
 
 $sql	= "SELECT * FROM config WHERE id='1' LIMIT 1";
-$query	= mysqli_query($m_connect,$sql);
-$config	= mysqli_fetch_assoc($query);
+$query	= mysql_query($sql);
+$config	= mysql_fetch_assoc($query);	
 
 
 $datetime1 	= date_create('now');

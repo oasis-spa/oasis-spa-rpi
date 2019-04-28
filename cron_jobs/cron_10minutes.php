@@ -14,27 +14,27 @@ require 'config.php';
 require 'functions.php';
 
 $sql		= "SELECT * FROM config WHERE id='1'";
-$query		= mysqli_query($m_connect,$sql);
-$conf		= mysqli_fetch_assoc($query);
+$query		= mysql_query($sql);
+$conf		= mysql_fetch_assoc($query);
 
 
 
 /*** Save temperature in database ***/
 $sql		= "SELECT * FROM config WHERE id!='0'";
-$query		= mysqli_query($m_connect,$sql);
-$config		= mysqli_fetch_assoc($query);
+$query		= mysql_query($sql);
+$config		= mysql_fetch_assoc($query);
 
 if($config['save_temp'] == "1") {
 
 $sql			= "SELECT * FROM sensors WHERE id !='0'";
-$query			= mysqli_query($m_connect,$sql);
-while($sensor	= mysqli_fetch_assoc($query)) {
+$query			= mysql_query($sql);
+while($sensor	= mysql_fetch_assoc($query)) {
 
 $temp	= GetTemp($sensor['address']);
 
 
 if($temp != "9999") {
-mysqli_query($m_connect,"INSERT INTO temp_logger (id,address,date_time,value) VALUES('','".$sensor['address']."',now(),'$temp')");
+mysql_query("INSERT INTO temp_logger (id,address,date_time,value) VALUES('','".$sensor['address']."',now(),'$temp')");
 }
 
 

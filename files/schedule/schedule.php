@@ -59,7 +59,7 @@ alert("Input time error. Minutes must be between 0-59");
 return;
 }
 
-mysqli_query($m_connect,"INSERT INTO schedule (id,pin,state,time,active,remarks) VALUES('','$device','$state','$time','$active','$remarks')")or die(mysql_error());
+mysql_query("INSERT INTO schedule (id,pin,state,time,active,remarks) VALUES('','$device','$state','$time','$active','$remarks')")or die(mysql_error());
 
 
 alert("Time schedule added");
@@ -78,8 +78,8 @@ echo "  <td width=\"60%\"> <p>";
 echo "     <select name=\"device\">";
 
 $sql			= "SELECT * FROM relays WHERE id !='0'";
-$query			= mysqli_query($m_connect,$sql);
-while($relay	= mysqli_fetch_assoc($query)) {
+$query			= mysql_query($sql);
+while($relay	= mysql_fetch_assoc($query)) {
 echo '       <option value= '.$relay['pin'].'>  '.$relay['name'].' </option>'; 
 }
 echo "    </select>";
@@ -150,7 +150,7 @@ return;
 
 
 if($a == "del") {
-mysqli_query($m_connect,"DELETE FROM schedule WHERE id='$id' LIMIT 1");
+mysql_query("DELETE FROM schedule WHERE id='$id' LIMIT 1");
 alert("Time Schedule Deleted.");
 return;
 }
@@ -161,8 +161,8 @@ return;
 if($a == "edit") {
 
 $sql		= "SELECT * FROM schedule WHERE id='$id' LIMIT 1";
-$query		= mysqli_query($m_connect,$sql);
-$schedule	= mysqli_fetch_assoc($query);
+$query		= mysql_query($sql);
+$schedule	= mysql_fetch_assoc($query);
 
 if(isset($_POST['submit'])) {
 	
@@ -209,7 +209,7 @@ return;
 }
 
 
-mysqli_query($m_connect,"UPDATE schedule SET pin='$device', state='$state', time='$time', active='$active', remarks='$remarks' WHERE id='$id' LIMIT 1");
+mysql_query("UPDATE schedule SET pin='$device', state='$state', time='$time', active='$active', remarks='$remarks' WHERE id='$id' LIMIT 1");
 
 alert("Time schedule changed.");
 
@@ -227,8 +227,8 @@ echo '  <td width="60%"> <p>';
 echo '     <select name="device">';
 
 $sql			= "SELECT * FROM relays WHERE id !='0'";
-$query			= mysqli_query($m_connect,$sql);
-while($relay	= mysqli_fetch_assoc($query)) {
+$query			= mysql_query($sql);
+while($relay	= mysql_fetch_assoc($query)) {
 echo '       <option value="'.$relay['pin'].'" '; if($schedule['pin'] == $relay['pin']) { echo 'selected'; } echo '>  '.$relay['name'].' </option>'; 
 }
 echo '    </select>';
@@ -311,8 +311,8 @@ echo "	<td width=\"5%\"><span class=\"bg\"> DB </span></td>";
 echo "</tr>";
 
 $sql		= "SELECT * FROM schedule WHERE id !='0' ORDER BY pin DESC";
-$query		= mysqli_query($m_connect,$sql);
-while($schedule = mysqli_fetch_array($query)) {
+$query		= mysql_query($sql);
+while($schedule = mysql_fetch_array($query)) {
 
 $del = "<a href=\"index.php?p=SCHEDULE.main&a=del&id=".$schedule['id']."\"> <img src=\"images/delete.png\" width=\"20\" height=\"20\"></a>";
 $edit = "<a href=\"index.php?p=SCHEDULE.main&a=edit&id=".$schedule['id']."\"> <img src=\"images/edit.png\" width=\"20\" height=\"20\"></a>";

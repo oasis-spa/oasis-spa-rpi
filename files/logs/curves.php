@@ -33,7 +33,7 @@ echo "<br />";
 
 $sql				= "SELECT * FROM sensors WHERE id !='0'"; 
 $query				= mysql_query($sql);
-while($data 		= mysqli_fetch_assoc($query)) { 
+while($data 		= mysql_fetch_assoc($query)) { 
 echo '<th> '.($data['name']).' </th>';	
   $counter++; // or $counter = $counter + 1;
 }

@@ -22,52 +22,28 @@ alert("Server is going down. Recycle power to turn it on.");
 
 $current = date('H:i:s', $tijd);
 
-
-
 echo 'System Time: '.$current.' <br />';
-
  
-
 //GET SERVER LOADS
-
 $loadresult = @exec('uptime');
-
 preg_match("/averages?: ([0-9\.]+),[\s]+([0-9\.]+),[\s]+([0-9\.]+)/",$loadresult,$avgs);
 
-
-
 //GET SERVER UPTIME
-
 $uptime = explode(' up ', $loadresult);
-
 $uptime = explode(',', $uptime[1]);
-
 $uptime = $uptime[0].', '.$uptime[1];
-
-$data = "Server Load Averages $avgs[1], $avgs[2], $avgs[3]\n <br/>";
-
+$data .= "Server Load Averages $avgs[1], $avgs[2], $avgs[3]\n <br/>";
 $data .= "Server Uptime $uptime";
-
 echo $data;
 
 
 
 
-
-
-
-
-
 exec("cat /sys/class/thermal/thermal_zone0/temp",$cputemp);
-
 $cputemp = $cputemp[0] / 1000;
-
 echo '<br />';
-
 echo 'Server CPU temperature: ';
-
 echo $cputemp;
-
 echo '&deg;C </br>';
 
 echo '<br /><br />';

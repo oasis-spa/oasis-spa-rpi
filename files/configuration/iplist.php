@@ -10,7 +10,7 @@ $a		= mysql_real_escape_string($_GET['a']);
 $id		= mysql_real_escape_string($_GET['id']);
 
 if($a == "del") {
-mysqli_query($m_connect,"DELETE FROM iplist WHERE id='$id' LIMIT 1");
+mysql_query("DELETE FROM iplist WHERE id='$id' LIMIT 1");
 alert("IP address deleted.");	
 }
 
@@ -19,7 +19,7 @@ if($a == "new") {
 
 if(isset($_POST['submit'])) {
 	$ipadd = mysql_real_escape_string($_POST['ipaddress']);
-	mysqli_query($m_connect,"INSERT INTO iplist (id,ip) VALUES('','$ipadd')");
+	mysql_query("INSERT INTO iplist (id,ip) VALUES('','$ipadd')");
 Alert("Ip Address added.");
 }
 
@@ -61,8 +61,8 @@ echo "</tr>";
 
 
 $sql				= "SELECT * FROM iplist WHERE id !='0'"; 
-$query				= mysqli_query($m_connect,$sql);
-while($iplist		= mysqli_fetch_assoc($query)) { 
+$query				= mysql_query($sql);
+while($iplist		= mysql_fetch_assoc($query)) { 
 
 $del  	= "<a href=\"index.php?p=CONF.iplist&a=del&id=".$iplist['id'] ."\"> <img src=\"images/delete.png\" width=\"20\" height=\"20\"></a>   ";
 
