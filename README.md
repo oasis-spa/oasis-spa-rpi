@@ -7,7 +7,7 @@ There are three branches for now
 2. php5: Abandoned PHP5 code (not recommended).
 3. Rick's original code, PHP5 (not recommended)
 
-The reasoning behind its is that we plan on decoupling the front end PHP from the 'controller' brain. Thus in the future the project will split into two or more seperate repositories. We have big plans for this, but first we'll be getting this original code base up to speed and stable. 
+The reasoning behind its is that we plan on decoupling the front end PHP from the 'controller' brain. Thus in the future the project will split into two or more seperate repositories. We have big plans for this, but first we'll be getting this original code base up to speed and stable. Further, we're working on a docker image for the project so it can be run on any existing computer/server.
 
 # Oasis-Spa
 An MQTT Enabled Hot Tub controller for the Raspberry Pi
