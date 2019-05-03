@@ -18,8 +18,8 @@ ini_set('error_reporting',E_ALL);
 
 /** Mysql_ Server Data**/
 $mysql_server		= "localhost";  /// mysql server bijna altijd localhost
-$mysql_user			= "root";  /// De mysql username
-$mysql_pass			= "welcometoluxury";  /// mysql password
+$mysql_user			= "oasis";  /// De mysql username
+$mysql_pass			= "raspberry";  /// mysql password
 $mysql_db			= "controller"; /// Welke database ?
 
 
