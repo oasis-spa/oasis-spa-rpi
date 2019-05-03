@@ -15,9 +15,10 @@ set_include_path('/var/www/html');
 require 'config.php';
 require 'functions.php';
 
-$sql		= "SELECT * FROM config WHERE id='1'";
-$query		= mysqli_query($m_connect, $sql);
-$conf		= mysqli_fetch_assoc($query);
+$sql = "SELECT * FROM config WHERE id='1'";
+$query = mysqli_query($m_connect, $sql);
+$conf	= mysqli_fetch_assoc($query);
+$now = time();
 
 /***** sensor value write*****/
 
@@ -43,13 +44,16 @@ exec('curl -s http://192.168.10.66/api/temperature?apikey=61B8D62DC8DE6D2E >> /v
 if($debug == '1') { echo 'Temp Write works. <br />'; }
 
 /***** Check which one pin is on to record for used KWH and set relay state *****/
-$sql			= "SELECT * FROM relays WHERE id !='0'";
-$query			= mysqli_query($m_connect, $sql);
+$sql = "SELECT * FROM relays WHERE id !='0'";
+$query = mysqli_query($m_connect, $sql);
 while($relay	= mysqli_fetch_assoc($query)) {
-if(ReadPin($relay['pin']) == 0)  {
-mysqli_query($m_connect, "UPDATE relays SET minutes_power = minutes_power + 1 WHERE id = ".$relay['id']." LIMIT 1");
-}
-if($debug == '1') { echo 'KWH recorder works. <br />'; }
+  if(ReadPin($relay['pin']) == 0)  {
+    mysqli_query($m_connect, "UPDATE relays SET minutes_power = minutes_power + 1 WHERE id = ".$relay['id']." LIMIT 1");
+    
+    // TODO check if heater time_on is greater than heater timeout value
+    //mysqli_query($m_connect, "UPDATE relays SET time_on = time_on + 1 WHERE id = ".$relay['id']." LIMIT 1");
+  }
+  if($debug == '1') { echo 'KWH recorder works. <br />'; }
 }
 
 /**** OverHeat Protection *****/
@@ -166,28 +170,29 @@ if($debug == '1') { echo 'Frost protection works. <br />'; }
 
 
 
-/**** Heater Control , to get tub nice and warm ****/
-if($config['heater_control'] == '1') {
+  /**** Heater Control , to get tub nice and warm ****/
+  if($config['heater_control'] == '1') {
+    $heater_sensor_id = sensor_id_address($config['heater_sensor']);
+    $heater_relay_pin = $config['heater_relay'];
+    $pump_relay_pin = $config['pump_relay'];
+    $temp_deviation = intval($config['set_temp_dev']);
+    $desired_temp = intval($config['set_temp']);
+    $current_heater_temp = intval(GetTemp($heater_sensor_id));
+  
+    // if the current heater temp plus deviation is less than the desired temp 
+    // then turn the heater and pump on
+    if ($current_heater_temp + $temp_deviation < $desired_temp) {
+      WritePin($heater_relay_pin, 0);
+      WritePin($pump_relay_pin, 0);
+    }
+  
+    // if the current heater temp is greater or equal to the desired temp
+    // then turn the heater and pump off
+    if ($current_heater_temp >= $desired_temp) {
+      WritePin($heater_relay_pin, 1);
+      WritePin($pump_relay_pin, 1);
+    }
 
-$eval2 = "
-if(GetTemp(sensor_id_address(".$config['heater_sensor'].")) + ".$config['set_temp_dev']."  <  ".$config['set_temp'].")  {
-        WritePin(".$config['heater_relay'].",0);
-		WritePin(".$config['pump_relay'].",0);
-}
-";
-
-$eval3 = "
-if(GetTemp(sensor_id_address(".$config['heater_sensor']."))  >=  ".$config['set_temp'].")  {
-        WritePin(".$config['heater_relay'].",1);
-			if(".$config['pump_relay']." == '0') {
-				WritePin(".$config['pump_relay'].",1);
-			}
-}
-";
-
-eval($eval2);
-eval($eval3);
-
-if($debug == '1') { echo 'Heater Control works. <br />'; }
-}
+    if($debug == '1') { echo 'Heater Control works. <br />'; }
+  }
 ?>
