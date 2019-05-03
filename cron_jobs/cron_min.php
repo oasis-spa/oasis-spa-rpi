@@ -18,7 +18,10 @@ require 'functions.php';
 $sql = "SELECT * FROM config WHERE id='1'";
 $query = mysqli_query($m_connect, $sql);
 $conf	= mysqli_fetch_assoc($query);
-$now = time();
+$now = gmdate(time());
+$heater_sensor_id = sensor_id_address($config['heater_sensor']);
+$heater_relay_pin = $config['heater_relay'];
+$pump_relay_pin = $config['pump_relay'];
 
 /***** sensor value write*****/
 
@@ -43,18 +46,32 @@ sleep(2);
 exec('curl -s http://192.168.10.66/api/temperature?apikey=61B8D62DC8DE6D2E >> /var/log/sensors/28FF36EBA21704D7/sonoff_th');
 if($debug == '1') { echo 'Temp Write works. <br />'; }
 
-/***** Check which one pin is on to record for used KWH and set relay state *****/
-$sql = "SELECT * FROM relays WHERE id !='0'";
-$query = mysqli_query($m_connect, $sql);
-while($relay	= mysqli_fetch_assoc($query)) {
-  if(ReadPin($relay['pin']) == 0)  {
-    mysqli_query($m_connect, "UPDATE relays SET minutes_power = minutes_power + 1 WHERE id = ".$relay['id']." LIMIT 1");
+  /***** Check which one pin is on to record for used KWH and set relay state *****/
+  $sql = "SELECT * FROM relays WHERE id !='0'";
+  $query = mysqli_query($m_connect, $sql);
+  while($relay	= mysqli_fetch_assoc($query)) {
+    if(ReadPin($relay['pin']) == 0)  {
+      mysqli_query($m_connect, "UPDATE relays SET minutes_power = minutes_power + 1 WHERE id = ".$relay['id']." LIMIT 1");
+    }
+    if($debug == '1') { echo 'KWH recorder works. <br />'; }
     
-    // TODO check if heater time_on is greater than heater timeout value
-    //mysqli_query($m_connect, "UPDATE relays SET time_on = time_on + 1 WHERE id = ".$relay['id']." LIMIT 1");
+    // if the heater relay is on...
+    if(ReadPin($relay['pin']) == 0 && $relay['pin'] == $heater_relay_pin) {
+      $heater_time_on = strtotime($relay['time_on']);
+      if ($heater_time_on == null) {
+        // set the heater time on value to now
+        mysqli_query($m_connect, "UPDATE relays SET time_on = $now WHERE id = {$relay['id']} LIMIT 1");
+      } else {
+        $delta_mins = ($now - $heater_time_on) / 60;
+        echo "The heater has been on for {$delta} minutes."
+        if ($delta_mins > 18 ) {
+          echo "Turning off the heater."
+            WritePin($heater_relay_pin, 1);
+            mysqli_query($m_connect, "UPDATE relays SET time_on = null WHERE id = {$relay['id']} LIMIT 1");
+        }
+      }
+    }
   }
-  if($debug == '1') { echo 'KWH recorder works. <br />'; }
-}
 
 /**** OverHeat Protection *****/
 if($conf['overheat_control'] == "1") {
@@ -172,9 +189,6 @@ if($debug == '1') { echo 'Frost protection works. <br />'; }
 
   /**** Heater Control , to get tub nice and warm ****/
   if($config['heater_control'] == '1') {
-    $heater_sensor_id = sensor_id_address($config['heater_sensor']);
-    $heater_relay_pin = $config['heater_relay'];
-    $pump_relay_pin = $config['pump_relay'];
     $temp_deviation = intval($config['set_temp_dev']);
     $desired_temp = intval($config['set_temp']);
     $current_heater_temp = intval(GetTemp($heater_sensor_id));
