@@ -135,7 +135,7 @@ CREATE TABLE IF NOT EXISTS `relays` (
   `address` text CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   `apikey` text CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   `tank` varchar(3) NOT NULL,
-  `time_on` int(2) NOT NULL,
+  `time_on` datetime NOT NULL,
   `power` int(4) NOT NULL,
   `minutes_power` int(11) NOT NULL,
   PRIMARY KEY (`id`),
