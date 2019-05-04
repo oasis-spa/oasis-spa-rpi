@@ -4,7 +4,7 @@ _**News**_
 Created this new repository 
 There are three branches for now
 1. Master: Our current working code that was converted to PHP7
-2. Docker: Ultimatly the preferred method of deploy. Will come as a docker file that can be updated w/o losing customizations. (Not functional yet)
+2. Docker: Ultimatly the preferred method of deploy. Will come as a platform agnostic docker file that can be updated w/o losing customizations. (Not functional yet)
 3. php5: Abandoned PHP5 code (not recommended).
 4. Rick's original code, PHP5 (not recommended)
 
