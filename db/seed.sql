@@ -2,4 +2,4 @@ INSERT INTO `config` (`id`, `version`, `raspberry_type`, `token`, `api`, `set_te
 (1, '1.20', 'Model 3b', 'Gdw34^%FHYDe', 1, '98', '4', 1, 1, 22, 2, 1, 2, '105', 1, 21, 0, '37', 4, 0, 8, '28FFB1A88317041A', 22, '2018-03-06', 1, 1, '192.168.x.x', '', '');
 
 INSERT INTO `users` (`id`, `username`, `password`, `email`, `ip`, `rank`) VALUES
-(9, 'admin', 'e10adc3949ba59abbe56e057f20f883e', '', '192.168.11.20', 2);
+(9, 'admin', 'b89749505e144b564adfe3ea8fc394aa', '', '', 2);
