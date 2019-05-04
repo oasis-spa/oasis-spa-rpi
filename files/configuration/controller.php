@@ -16,12 +16,14 @@ $id 	= addslashes($_GET['id']);
 }
 
 if($a == "del") {
+		global $m_connect;
 mysqli_query($m_connect,"DELETE FROM temp_control WHERE id='$id' LIMIT 1");
 alert("Temperature Control deleted.");
 return;
 }
 
 if($a == "device_del") {
+		global $m_connect;
 mysqli_query($m_connect,"DELETE FROM device_control WHERE id='$id' LIMIT 1");
 alert("Device Control deleted.");
 return;
@@ -43,7 +45,7 @@ if(empty($sensor_id) || empty($mark) || empty($temperature) || empty($relay)) {
 alert("Please fill in all fields.");
 return;
 }
-
+		global $m_connect;
 mysqli_query($m_connect,"INSERT INTO temp_control (id,sensor_id,mark,value,switch,state,remarks) VALUES('','$sensor_id','$mark','$temperature','$relay','$state','$remarks')");
 
 alert("Temperature Control Added.");
@@ -178,7 +180,6 @@ return;
 }
 
 //mysqli_query($m_connect,"INSERT INTO temp_control (id,sensor_id,mark,value,switch,state,remarks) VALUES('','$sensor_id','$mark','$temperature','$relay','$state','$remarks')");
-
 mysqli_query($m_connect,"UPDATE temp_control SET sensor_id='$sensor_id', mark='$mark', value='$temperature', switch='$relay', state='$state', remarks='$remarks' WHERE id='$id' LIMIT 1");
 /// mysql update
 alert("Temperature Control Changed.");
@@ -637,7 +638,6 @@ echo "<tr>";
 echo "	<td width=\"40%\"> Device to switch:</td>";
 echo "  <td width=\"60%\"> <p>";
 echo "     <select name=\"other_device\">";
-
 $sql			= "SELECT * FROM relays WHERE id !='0'";
 $query			= mysqli_query($m_connect,$sql);
 while($relay	= mysqli_fetch_assoc($query)) {
