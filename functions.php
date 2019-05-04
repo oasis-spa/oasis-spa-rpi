@@ -52,13 +52,13 @@ otherwise the relays will be on when device disabled ***/
   function WritePin($pin, $state) { 
     $output = shell_exec("gpio mode {$pin} out"); 
     $output .= shell_exec("gpio write {$pin} {$state}"); 
-    return $output; 
+    return trim($output); 
   }
 
   function ReadPin($pin)
   {
     $output = shell_exec("gpio read {$pin}");
-    return $output;
+    return trim($output);
   }
 
   function PinToName($pin)
