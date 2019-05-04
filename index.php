@@ -1,20 +1,12 @@
 <?php
+define('__ROOT__', dirname(dirname(__FILE__))); 
 
 error_reporting (1);
 
 include("config.php");
 include("functions.php");
 session_start();
-
-/**
-index.php File
-
-@ Realityhost.nl
-
-Created at 7-1-2009  (dd/mm/yyyy) at 11:00
-**/
-
-
+require_once(__ROOT__.'/html/models/model.php'); 
 
 /** Als er geen sessie is ga je naar de login pagina **/
 if(empty($_SESSION['username']) OR empty($_SESSION['password'])) {
