@@ -24,7 +24,7 @@ if($a == "edit") {
 $sql				= "SELECT * FROM sensors WHERE id ='$id'"; 
 $query				= mysqli_query($m_connect,$sql);
 $sensor				= mysqli_fetch_assoc($query);
-$config				= mysqli_fetch_assoc($query);
+$config				= mysqli_fetch_assoc($query);										
 
 if(isset($_POST['submit'])) {
 
@@ -36,7 +36,7 @@ $visible		= addslashes($_POST['visible']);
 
 if($address != $sensor['address']) { 
 $result =mysqli_query($m_connect,"SELECT * FROM sensors WHERE address = '$address'");
-if(mysqli_num_rows($m_connect,$result) > 0) {
+if(mysqli_num_rows($result) > 0) {
         Alert("Address already in use."); 
 return;
 }
@@ -138,7 +138,7 @@ return;
 }
 
 $result =mysqli_query($m_connect,"SELECT * FROM sensors WHERE address = '$address'");
-if(mysqli_num_rows($m_connect,$result) > 0) {
+if(mysqli_num_rows($result) > 0) {
         Alert("Address already in use."); 
 return;
 }
@@ -162,7 +162,7 @@ echo "</tr>";
 
 echo "<tr>";
 echo "  <td width=\"40%\">Address </td>";
-echo "  <td width=\"60%\">  <input type=\"text\" name=\"address\" value=\"".$_GET['sensor']."\">  </td>";
+echo "  <td width=\"60%\">  <input type=\"text\" name=\"address\" value=\"\">  </td>";
 echo "</tr>";
 
 echo "<tr>";
