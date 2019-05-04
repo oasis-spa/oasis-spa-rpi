@@ -6,8 +6,8 @@ echo "<br />";
 
 if(isset($_GET['a'])) { 
 
-$a		= mysql_real_escape_string($_GET['a']);
-$id		= mysql_real_escape_string($_GET['id']);
+$a		= mysqli_real_escape_string($m_connect, $_GET['a']);
+$id		= mysqli_real_escape_string($m_connect, $_GET['id']);
 
 if($a == "del") {
 mysqli_query($m_connect,"DELETE FROM iplist WHERE id='$id' LIMIT 1");
@@ -18,7 +18,7 @@ alert("IP address deleted.");
 if($a == "new") { 
 
 if(isset($_POST['submit'])) {
-	$ipadd = mysql_real_escape_string($_POST['ipaddress']);
+	$ipadd = mysqli_real_escape_string($m_connect, $_POST['ipaddress']);
 	mysqli_query($m_connect,"INSERT INTO iplist (id,ip) VALUES('','$ipadd')");
 Alert("Ip Address added.");
 }
