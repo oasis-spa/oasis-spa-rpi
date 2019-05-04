@@ -1,10 +1,11 @@
 #!/bin/bash
 set -e
+service syslog-ng start
 service apache2 start
 service mysql start
 
 if [ "$1" = 'init' ]; then
-  echo "Starting oasis controller"
+  echo "Setting up oasis controller"
   if [ ! "$(mysql -e 'use controller')" ]; then
     echo "DB doesn't exist. Creating database..."
     mysql -e 'create database controller'
@@ -19,8 +20,10 @@ if [ "$1" = 'init' ]; then
   echo "Init complete. Restart the container with the start command."
 elif [ "$1" = 'start' ]; then
   echo "Starting oasis controller"
+  syslog-ng-ctl reload
   echo "Started"
-  trap : TERM INT; sleep infinity & wait
+  tail -f /var/log/syslog
+  # trap : TERM INT; sleep infinity & wait
 else
   exec "$@"
 fi
