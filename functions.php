@@ -1,92 +1,63 @@
 <?php 
   function alert($text) { 
     echo " <script language=\"javascript\" type=\"text/javascript\"> ";
-    echo " alert('$text')"; echo " </script>"; return; 
+    echo " alert('$text')"; 
+	  echo " </script>";  
+	  return; 										 
   } 
-
-  function AddLog($log, $time) { 
+  function AddLog($log, $time) { 				  
     global $m_connect; 
-    mysqli_query($m_connect,"INSERT INTO logs (id,log,time) VALUES('','$log',now())"); 
-  }
-
+    mysqli_query($m_connect,"INSERT INTO logs (id,log,time) VALUES('','$log',now())");						 
+  }	
   function Succes($title,$msg) { 
     echo "<table width=\"400\" align=\"center\" border=\"0\" cellpadding=\"0\" cellpadding=\"0\">";
     echo " <form method=\"post\" name=\"ok\" action=\"index.php\">"; 
     echo " <tr>"; 
     echo " <td background=\"images/content-table-headbg.jpg\" width=\"100%\"><center>".$msg."</center></td> "; 
-    echo " <tr>"; echo " <tr>"; 
-    echo " <td
-  width=\"100%\"><center> <img src=\"./images/done.gif\"> </center></td> "; 
+    echo " <tr>"; 
+	echo " <tr>"; 
+    echo " <td width=\"100%\"><center> <img src=\"./images/done.gif\"> </center></td> "; 
     echo " <tr>"; 
     echo " <tr>";
     echo " <td width=\"100%\"><center>".$msg."</center></td> "; 
     echo " <tr>"; 
     echo " <tr>"; 
-    echo " <td
-  width=\"100%\"><center> <input type=\"submit\" name=\"ok\" value=\"Ok\"> </center></td> "; 
-    echo "<tr>"; 
+    echo " <td width=\"100%\"><center> <input type=\"submit\" name=\"ok\" value=\"Ok\"> </center></td> "; 
+    echo " <tr>"; 
     echo " </form>"; 
     echo " </table>"; 
   } 
-  
   /** This is for GPIO , changed 0 to ON / 1 to OFF
 otherwise the relays will be on when device disabled ***/ 
-  function to_state($id) { 
-    switch($id) { 
-      case 0 : 
-        return "On"; 
-      break; 
-      case 1 : 
-        return "Off"; 
-        break; 
-      } 
-    } 
+  function to_state($state) {
+    assert($state == 0 || $state == 1);
+    return ["On", "Off"][$state];
+  } 
     
-  function to_state_menu($id) { 
-    switch($id) {
-      case 0 : 
-      return "Off"; 
-      break; 
-      case 1 : 
-      return "On"; 
-      break; 
-    } 
+  function to_state_menu($state) {
+    assert($state == 0 || $state == 1);
+    return ["Off", "On"][$state];
   } 
   
-  function yes_no($id) { 
-    switch($id) {
-      case 0 : 
-      return "No"; 
-      break; 
-      case 1 : 
-      return "Yes"; 
-      break; 
-    } 
+  function yes_no($value) {
+    assert($value == 0 || $value == 1);
+    return ["No", "Yes"][$value];
   } 
   
   function to_function($rank) {
-    switch($rank) { 
-      case 0 : 
-      return "None"; 
-      break; 
-      case 1 : 
-      return "User"; 
-      break; 
-      case 2 : 
-      return "Administrator"; 
-      break; 
-    } 
-  } 
-  
-  function WritePin($pin,$state) { 
-    $output = shell_exec('gpio mode '.$pin.'out'); 
-    $output = shell_exec('gpio write '.$pin.' '.$state); 
+    $rank_names = ["None", "User", "Administrator"];
+    return $rank_names[$rank];
+  }
+   
+  function WritePin($pin, $state) { 
+    $output = shell_exec("gpio mode {$pin} out"); 
+    $output .= shell_exec("gpio write {$pin} {$state}"); 
     return $output; 
   }
 
   function ReadPin($pin)
   {
-    $output = shell_exec('gpio read '.$pin.'');
+    $output = shell_exec("gpio read {$pin}");
     return $output;
   }
 
@@ -94,7 +65,7 @@ otherwise the relays will be on when device disabled ***/
   {
   	global $m_connect;
     $sql		= "SELECT * FROM relays WHERE pin='$pin' LIMIT 1";
-    $query		= mysqli_query($m_connect,$sql);
+    $query	= mysqli_query($m_connect, $sql);
     $pins		= mysqli_fetch_assoc($query);
     return $pins['name'];
   }
@@ -103,7 +74,7 @@ otherwise the relays will be on when device disabled ***/
   {
   	global $m_connect;
     $sql		= "SELECT * FROM relays WHERE id='$id' LIMIT 1";
-    $query		= mysqli_query($m_connect,$sql);
+    $query	= mysqli_query($m_connect, $sql);
     $pins		= mysqli_fetch_assoc($query);
     return $pins['pin'];
   }
@@ -111,8 +82,8 @@ otherwise the relays will be on when device disabled ***/
   function sensor_name($id)
   {
   	global $m_connect;
-    $sql	= "SELECT * FROM sensors WHERE id='$id' LIMIT 1";
-    $query	= mysqli_query($m_connect,$sql);
+    $sql	  = "SELECT * FROM sensors WHERE id='$id' LIMIT 1";
+    $query	= mysqli_query($m_connect, $sql);
     $sensor = mysqli_fetch_assoc($query);
     return $sensor['name'];
   }
@@ -120,8 +91,8 @@ otherwise the relays will be on when device disabled ***/
   function sensor_address_name($address)
   {
   	global $m_connect;
-    $sql	= "SELECT * FROM sensors WHERE address='$address' LIMIT 1";
-    $query	= mysqli_query($m_connect,$sql);
+    $sql	  = "SELECT * FROM sensors WHERE address='$address' LIMIT 1";
+    $query	= mysqli_query($m_connect, $sql);
     $sensor = mysqli_fetch_assoc($query);
     return $sensor['name'];
   }
@@ -129,8 +100,8 @@ otherwise the relays will be on when device disabled ***/
   function sensor_id_address($id)
   {
 		global $m_connect;
-    $sql	= "SELECT * FROM sensors WHERE id='$id' LIMIT 1";
-    $query	= mysqli_query($m_connect,$sql);
+    $sql	  = "SELECT * FROM sensors WHERE id='$id' LIMIT 1";
+    $query	= mysqli_query($m_connect, $sql);
     $sensor = mysqli_fetch_assoc($query);
     return $sensor['address'];
   }
@@ -138,13 +109,13 @@ otherwise the relays will be on when device disabled ***/
   function FindAddress($address)
   {
 		global $m_connect;
-    $sql	= "SELECT * FROM sensors WHERE address='$address' LIMIT 1";
-    $query	= mysqli_query($m_connect,$sql);
+    $sql	  = "SELECT * FROM sensors WHERE address='$address' LIMIT 1";
+    $query	= mysqli_query($m_connect, $sql);
     $sensor	= mysqli_fetch_assoc($query);
-    if(mysqli_num_rows($query) == "1")     {
-    		$name	= 1;
+    if(mysqli_num_rows($query) == "1") {
+    	$name	= 1;
     } else {
-    		$name	= 0;
+    	$name	= 0;
     }
     return $name;
   }
@@ -152,9 +123,9 @@ otherwise the relays will be on when device disabled ***/
   // This function is also in the cron files.
   function GetTemp($address)
   {
-  	global $m_connect;
-  	$sql		= "SELECT * FROM sensors WHERE address='$address' LIMIT 1";
-  	$query		= mysqli_query($m_connect,$sql);
+		global $m_connect;
+  	$sql		  = "SELECT * FROM sensors WHERE address='$address' LIMIT 1";
+  	$query		= mysqli_query($m_connect, $sql);
   	$sensor		= mysqli_fetch_assoc($query);
 	
     //File to read
@@ -164,25 +135,9 @@ otherwise the relays will be on when device disabled ***/
       $lines = file($file);
       //Get the temp from second line
       $temp = ($lines[1]);
-    }
-
-    //direct connected
-    return $temp + $sensor['calibration_value'];
-    $file = '/sys/bus/w1/devices/'.$address.'/w1_slave';
-    if (file_exists($file)) {
-      //Read the file line by line
-      $lines = file($file);
-      //Get the temp from second line
-      $temp = explode('=', $lines[1]);
-      //$temp = ($lines[1]);
-      //Setup some nice formatting (i.e. 21,3)
-      $temp = number_format($temp[1] / 1000, 1, '.', '');
-      $temp = $temp;
-      /// Dont change 9999 because cronjob 10 minutes
-    }
-    else {
+    } else {
       $temp = "9999";
     }
-  return $temp + $sensor['calibration_value'];
+    return $temp + $sensor['calibration_value'];
   }
 ?>
