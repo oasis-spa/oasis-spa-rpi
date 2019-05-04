@@ -173,7 +173,7 @@ if($debug == '1') { echo 'Frost protection works. <br />'; }
   /**** Heater Control , to get tub nice and warm ****/
   if($config['heater_control'] == '1') {
     $temp_deviation = intval($config['set_temp_dev']);
-    $desired_temp = intval($desired_tempig['set_temp']);
+    $desired_temp = intval($config['set_temp']);
     $current_heater_temp = intval(GetTemp($heater_sensor_id));
   
     // if the current heater temp plus deviation is less than the desired temp 
