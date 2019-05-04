@@ -23,7 +23,7 @@ $mysql_pass			= "raspberry";  /// mysql password
 $mysql_db			= "controller"; /// Welke database ?
 
 
-
+$mysqli = new mysqli($mysql_server, $mysql_user, $mysql_pass, $mysql_db);
 
 /* Dont change anything here */
 

@@ -1,10 +1,12 @@
 <?php
+define('__ROOT__', dirname(dirname(__FILE__))); 
 
 error_reporting (1);
 
 include("config.php");
 include("functions.php");
 session_start();
+require_once(__ROOT__.'/html/models/relay.php'); 
 
 /**
 index.php File
