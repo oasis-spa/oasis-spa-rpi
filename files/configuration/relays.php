@@ -115,7 +115,7 @@ return;
 }
 
 $result =mysqli_query($m_connect,"SELECT * FROM relays WHERE pin = '$pin'");
-if(mysqli_num_rows($m_connect,$result) > 0) {
+if(mysqli_num_rows($result) > 0) {
         Alert("Pin already in use."); 
 return;
 }
