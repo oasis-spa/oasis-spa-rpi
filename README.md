@@ -1,12 +1,10 @@
 _**News**_
 
-4/19/2019
 Created this new repository 
 There are four branches for now
-1. Master: Our current working code that was converted to PHP7
-2. Docker: Ultimatly the preferred method of deploy. Will come as a platform agnostic docker file that can be updated w/o losing customizations. (Not functional yet)
-3. php5: Abandoned PHP5 code (not recommended).
-4. Rick's original code, PHP5 (not recommended)
+1. Master: (Merged with DOCKER branch. Docker branched used as dev for now) Our current working code that was converted to PHP7. Can be run standalone on a RPi 2 - current. OR Docker: Ultimatly the preferred method of deploy. Will come as a platform agnostic docker file that can be updated w/o losing customizations. (Working, but in progress)  See instructions below.
+2. php5: Abandoned PHP5 code (not recommended).
+3. Rick's original code, PHP5 (not recommended)
 
 The reasoning behind its is that we plan on decoupling the front end PHP from the 'controller' brain. Thus in the future the project will split into two or more seperate repositories. We have big plans for this, but first we'll be getting this original code base up to speed and stable. Further, we're working on a docker image for the project so it can be run on any existing computer/server.
 
