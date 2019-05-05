@@ -15,7 +15,7 @@ ENTRYPOINT ["/entrypoint.sh"]
 # EXPOSE 80 8000
 # EXPOSE 3306 33060
 
-ADD . .
+COPY . .
 RUN chown -R :www-data .
 RUN chmod -R 755 .
 
