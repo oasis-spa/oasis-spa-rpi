@@ -34,7 +34,7 @@ _**Oasis Spa**_ is a lightweight Raspberry Pi based Hot Tub controller. Fully co
 *  HTTP API for device/site/tub control
 
 ## Docker
-Install docker `sudo apt-get install docker-ce`
+Install docker using [the convenience script](https://docs.docker.com/install/linux/docker-ce/debian/#install-using-the-convenience-script).
 
 Add the pi user to the docker group `sudo usermod -aG docker pi`
 
