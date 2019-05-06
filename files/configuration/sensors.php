@@ -29,7 +29,6 @@ $config				= mysqli_fetch_assoc($query);
 if(isset($_POST['submit'])) {
 
 $name  			= addslashes($_POST['name']);
-$type  			= addslashes($_POST['type']);
 $address		= addslashes($_POST['address']); 
 $calibration	= addslashes($_POST['calibration']);
 $visible		= addslashes($_POST['visible']);
@@ -45,7 +44,7 @@ return;
 
 
 
-mysqli_query($m_connect,"UPDATE sensors SET name='$name', type='$type', address='$address', calibration_value='$calibration', visible='$visible' WHERE id='$id' LIMIT 1");
+mysqli_query($m_connect,"UPDATE sensors SET name='$name', address='$address', calibration_value='$calibration', visible='$visible' WHERE id='$id' LIMIT 1");
 alert("Sensor changed.");
 return;
 }
@@ -132,7 +131,7 @@ if(mysqli_num_rows($result) > 0) {
 return;
 }
 
-mysqli_query($m_connect,"INSERT INTO sensors (id,name,type,address,calibration_value,visible) VALUES('','$name','$type','$address','$calibration','$visible')");
+mysqli_query($m_connect,"INSERT INTO sensors (id,name,address,calibration_value,visible) VALUES('','$name','$address','$calibration','$visible')");
 alert("Sensor Added.");
 return;
 }
