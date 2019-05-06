@@ -209,7 +209,7 @@ echo "<tr>";
 echo "	<td colspan=\"2\" width=\"100%\"> &nbsp; </td>";
 echo "</tr>";
 
-if ($handle = opendir('/var/log/sensors/')) {
+if ($handle = opendir('/var/www/html/sensors/')) {
     /* This is the correct way to loop over the directory. */
     while (false !== ($entry = readdir($handle))) {
         $data[] =$entry ;
@@ -246,7 +246,6 @@ return;
 echo "<table width=\"100%\"> ";
 echo "<tr>";
 echo "  <td width=\"5%\"> Name  </td>";
-echo "  <td width=\"10%\"> Type  </td>";
 echo "  <td width=\"30%\"> Sensor ID  </td>";
 echo "  <td width=\"10%\"> +/- Value  </td>";
 echo "  <td width=\"10%\"> Current </td>";
@@ -271,7 +270,6 @@ $del  	= "<a href=\"index.php?p=CONF.sensors&a=del&id=".$sensor['id']."\"> <img 
 
 echo "<tr>";
 echo "  <td width=\"20%\"> ".$sensor['name']." </td>";
-echo "  <td width=\"10%\"> ".$sensor['type']." </td>";
 echo "  <td width=\"30%\"> ".$sensor['address']." </td>";
 echo "  <td width=\"10%\"> ".$sensor['calibration_value']." </td>";
 echo "  <td width=\"10%\"> ".GetTemp($sensor['address'])." </td>";
