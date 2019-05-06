@@ -129,7 +129,7 @@ otherwise the relays will be on when device disabled ***/
   	$sensor		= mysqli_fetch_assoc($query);
 	
     //File to read
-    $file = '/var/log/sensors/'.$address.'/sonoff_th';
+    $file = '/var/www/html/sensors/'.$address.'/sonoff_th';
     if (file_exists($file)) {
       //Read the file line by line
       $lines = file($file);

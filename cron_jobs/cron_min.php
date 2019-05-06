@@ -207,7 +207,7 @@ if($debug == '1') { echo 'Frost protection works. <br />'; }
         } else {
           $delta_mins = ($now - $heater_time_on) / 60;
           echo "The heater has been on for {$delta_mins} minutes.<br/>";
-          if ($delta_mins > 3 ) {
+          if ($delta_mins > 18 ) {
             echo "Turning off the heater.<br/>";
               WritePin($heater_relay_pin, 1);
               mysqli_query($m_connect, "UPDATE relays SET time_on = null WHERE id = {$relay['id']} LIMIT 1");

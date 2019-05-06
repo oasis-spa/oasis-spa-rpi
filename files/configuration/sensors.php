@@ -62,16 +62,6 @@ echo "<tr>";
 echo "  <td colspan=\"2\" width=\"100%\"> &nbsp; </td>";
 echo "</tr>";
 
-echo "<tr>";
-echo "  <td width=\"50%\">Type: </td>";
-echo "  <td width=\"40%\"> <p>";
-echo "     <select name=\"type\">";
-echo "       <option value=\"IoT\" "; if($config['type'] == "IoT") { echo "selected";  } echo ">IoT</option>"; 
-echo "       <option value=\"GPIO\" "; if($config['type'] == "GPIO") { echo "selected";  } echo ">GPIO</option>"; 
-echo "    </select></td>";
-echo "</tr>";
-
-echo "<tr>";
 echo "  <td colspan=\"4\" width=\"100%\"> &nbsp; </td>";
 echo "</tr>";
 
@@ -122,7 +112,6 @@ if($a == "new") {
 if(isset($_POST['submit'])) {
 
 $name  				= addslashes($_POST['name']);
-$type				= addslashes($_POST['type']);
 $address			= addslashes($_POST['address']); 
 $calibration		= addslashes($_POST['calibration']);
 $visible			= addslashes($_POST['visible']);
@@ -169,21 +158,9 @@ echo "<tr>";
 echo "  <td colspan=\"4\" width=\"100%\"> &nbsp; </td>";
 echo "</tr>";
 
-echo "<tr>";
-echo "  <td width=\"50%\">Type </td>";
-echo "  <td width=\"40%\"> <p>";
-echo "     <select name=\"type\">";
-echo "       <option value=\"IoT\" "; if($config['type'] = "IoT") { echo "selected";  } echo ">IoT</option>"; 
-echo "       <option value=\"GPIO\" "; if($config['type'] = "GPIO") { echo "selected";  } echo ">GPIO</option>"; 
-echo "    </select></td>";
-echo "</tr>";
-
-echo "<tr>";
 echo "  <td colspan=\"4\" width=\"100%\"> &nbsp; </td>";
 echo "</tr>";
 
-
-echo "<tr>";
 echo "  <td width=\"40%\">+/- Value </td>";
 echo "  <td width=\"60%\">  <input type=\"text\" name=\"calibration\" value=\"\">  </td>";
 echo "</tr>";
@@ -259,45 +236,6 @@ echo "</table>";
 return;
 }
 
-if($a == "search_gpio") {
-
-//echo "search sensor <br/>";
-echo "<table width=\"60%\"> ";
-echo "<tr>";
-echo "	<td width=\"60%\"> Address: </td>";
-echo "	<td width=\"40%\"> Sensor: </td>";
-echo "</tr>";
-
-echo "<tr>";
-echo "	<td colspan=\"2\" width=\"100%\"> &nbsp; </td>";
-echo "</tr>";
-
-if ($handle = opendir('/sys/bus/w1/devices/')) {
-    /* This is the correct way to loop over the directory. */
-    while (false !== ($entry = readdir($handle))) {
-        $data[] =$entry ;
-    }
-
-    closedir($handle);
-}
-
-foreach ($data as $sensor) {
-	if ($sensor != '.' && $sensor != '..' && $sensor != 'w1_bus_master1') {
-			echo "<tr>";
-			echo "	<td width=\"60%\"> $sensor </td>";
-			echo "	<td width=\"40%\">";
-				if(FindAddress($sensor) == "0") {
-					echo "<a href=\"index.php?p=CONF.sensors&a=new&sensor=".$sensor."\">New Sensor</a>";
-				} else {
-					echo " ".sensor_address_name($sensor)."";
-				}
-			echo "	</td>";
-			echo "</tr>";
-	}
-}
-echo "</table>";
-return;
-}
 
 } // end isset $_GET ['a']
 
@@ -347,8 +285,6 @@ echo "</tr>";
 echo "</table>";
 
 echo "<br/><a href=\"index.php?p=CONF.sensors&a=new\"><img src=\"images/add.png\" width=\"30\" height=\"30\"></a>&nbsp;";
-echo "<a href=\"index.php?p=CONF.sensors&a=search_iot\"><img src=\"images/iot_box.png\" alt=\"Add ESPurna sensor\" width=\"30\"></a>&nbsp;";
-echo "<a href=\"index.php?p=CONF.sensors&a=search_gpio\"><img src=\"images/search.png\" width=\"30\"></a>&nbsp;";
 
 echo "<br/><p align=\"right\">  <a href=\"https://github.com/the-butterfry/Oasis-Spa/wiki\" target=\"_blank\"> <img src=\"./images/questionmark.png\"> </a> </p> ";
 
