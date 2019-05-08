@@ -32,17 +32,17 @@ Place that sensor ID in the two lines. ****/
 
 /**** In-Tub Temperature Sensor ****/
 echo file_put_contents("/var/log/sensors/28FFB1A88317041A/sonoff_th","Current Tub Temperature \n");
-sleep(2);
+
 exec('curl -s http://192.168.10.63/api/temperature?apikey=9E2CA07C2C799F9C >> /var/log/sensors/28FFB1A88317041A/sonoff_th');
 
 /**** Incoming Water Temperature Sensor ****/
 echo file_put_contents("/var/log/sensors/28FF55FA83170400/sonoff_th","Incoming Tub Temperature \n");
-sleep(2);
+
 exec('curl -s http://192.168.10.62/api/temperature?apikey=5DA9DCA3BD9DD86C >> /var/log/sensors/28FF55FA83170400/sonoff_th');
 
 /**** Ambient outdoor air temperature sensor ****/
 echo file_put_contents("/var/log/sensors/28FF36EBA21704D7/sonoff_th","Outdoor Temperature \n");
-sleep(2);
+
 exec('curl -s http://192.168.10.66/api/temperature?apikey=61B8D62DC8DE6D2E >> /var/log/sensors/28FF36EBA21704D7/sonoff_th');
 if($debug == '1') { echo 'Temp Write works. <br />'; }
 
@@ -176,13 +176,13 @@ if($debug == '1') { echo 'Frost protection works. <br />'; }
     if($config['heater_control'] == '1') {
       $temp_deviation = intval($config['set_temp_dev']);
       $desired_temp = intval($config['set_temp']);
-      $current_heater_temp = intval(GetTemp($heater_sensor_id));
+      $current_tub_temp = intval(GetTemp($heater_sensor_id));
 
 	// if the heater relay is on...
     if(ReadPin($relay['pin']) == 1 && $relay['pin'] == $heater_relay_pin)  {
     // if the current heater temp plus deviation is less than the desired temp 
     // then turn the heater and pump on
-       if ($current_heater_temp + $temp_deviation < $desired_temp) {
+       if ($current_tub_temp + $temp_deviation < $desired_temp) {
          WritePin($heater_relay_pin, 0);
          WritePin($pump_relay_pin, 0);
     }
@@ -192,7 +192,7 @@ if($debug == '1') { echo 'Frost protection works. <br />'; }
     // if the current heater temp is greater or equal to the desired temp
     // then turn the heater and pump off
   if(ReadPin($relay['pin']) == 0 && $relay['pin'] == $heater_relay_pin)  {
-    if ($current_heater_temp >= $desired_temp) {
+    if ($current_tub_temp >= $desired_temp) {
       WritePin($heater_relay_pin, 1);
       WritePin($pump_relay_pin, 1);
 	}
