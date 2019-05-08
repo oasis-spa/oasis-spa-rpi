@@ -168,31 +168,39 @@ if(GetTemp(sensor_id_address($config['frost_sensor'])) >= $new_temp) {
 if($debug == '1') { echo 'Frost protection works. <br />'; }
 }
 
-
-
-  /**** Heater Control , to get tub nice and warm ****/
-  if($config['heater_control'] == '1') {
-    $temp_deviation = intval($config['set_temp_dev']);
-    $desired_temp = intval($config['set_temp']);
-    $current_heater_temp = intval(GetTemp($heater_sensor_id));
+/**** Heater Control , to get tub nice and warm ****/
+  $sql = "SELECT * FROM relays WHERE id !='0'";
+  $query = mysqli_query($m_connect, $sql);
   
+  while($relay	= mysqli_fetch_assoc($query)) {
+    if($config['heater_control'] == '1') {
+      $temp_deviation = intval($config['set_temp_dev']);
+      $desired_temp = intval($config['set_temp']);
+      $current_heater_temp = intval(GetTemp($heater_sensor_id));
+
+	// if the heater relay is on...
+    if(ReadPin($relay['pin']) == 1 && $relay['pin'] == $heater_relay_pin)  {
     // if the current heater temp plus deviation is less than the desired temp 
     // then turn the heater and pump on
-    if ($current_heater_temp + $temp_deviation < $desired_temp) {
-      WritePin($heater_relay_pin, 0);
-      WritePin($pump_relay_pin, 0);
+       if ($current_heater_temp + $temp_deviation < $desired_temp) {
+         WritePin($heater_relay_pin, 0);
+         WritePin($pump_relay_pin, 0);
     }
-  
+   }
+ {
+	
     // if the current heater temp is greater or equal to the desired temp
     // then turn the heater and pump off
+  if(ReadPin($relay['pin']) == 0 && $relay['pin'] == $heater_relay_pin)  {
     if ($current_heater_temp >= $desired_temp) {
       WritePin($heater_relay_pin, 1);
       WritePin($pump_relay_pin, 1);
-    }
-
-    if($debug == '1') { echo 'Heater Control works. <br />'; }
+	}
   }
-  
+}
+    if($debug == '1') { echo 'Heater Control works. <br />'; }
+ }
+} 
   $sql = "SELECT * FROM relays WHERE id !='0'";
   $query = mysqli_query($m_connect, $sql);
   
