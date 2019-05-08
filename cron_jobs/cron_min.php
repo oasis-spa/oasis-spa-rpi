@@ -1,5 +1,4 @@
 <?php
-/** Because the php function shell_exec wouldn't work in a standard cronjob. I made a cronjob with WGET to get it work. **/
 $debug = '0';
 
 
@@ -23,27 +22,24 @@ $heater_sensor_id = sensor_id_address($config['heater_sensor']);
 $heater_relay_pin = $config['heater_relay'];
 $pump_relay_pin = $config['pump_relay'];
 
-/***** sensor value write*****/
 
-/****
+/**** sensor value write *****/
 To add new sensors, copy the two lines and replace the new API in the URL. Create a unique folder with the Sensor ID (in main espurna status screen). Sensor folder should be placed
 in /var/log/sensors/[sensor ID]/ with a blank file called 'sonoff_th' inside. You can get the Sensor ID from espurna status screen to the right of the Temperature reading.
 Place that sensor ID in the two lines. ****/
 
 /**** In-Tub Temperature Sensor ****/
 echo file_put_contents("/var/log/sensors/28FFB1A88317041A/sonoff_th","Current Tub Temperature \n");
-
 exec('curl -s http://192.168.10.63/api/temperature?apikey=9E2CA07C2C799F9C >> /var/log/sensors/28FFB1A88317041A/sonoff_th');
 
 /**** Incoming Water Temperature Sensor ****/
 echo file_put_contents("/var/log/sensors/28FF55FA83170400/sonoff_th","Incoming Tub Temperature \n");
-
 exec('curl -s http://192.168.10.62/api/temperature?apikey=5DA9DCA3BD9DD86C >> /var/log/sensors/28FF55FA83170400/sonoff_th');
 
 /**** Ambient outdoor air temperature sensor ****/
 echo file_put_contents("/var/log/sensors/28FF36EBA21704D7/sonoff_th","Outdoor Temperature \n");
-
 exec('curl -s http://192.168.10.66/api/temperature?apikey=61B8D62DC8DE6D2E >> /var/log/sensors/28FF36EBA21704D7/sonoff_th');
+
 if($debug == '1') { echo 'Temp Write works. <br />'; }
 
   /***** Check which one pin is on to record for used KWH and set relay state *****/
@@ -64,7 +60,6 @@ if(GetTemp(sensor_id_address($config['overheat_sensor'])) > $config['overheat_te
 }
 
 }
-/*******/
 
 /**** Save Temperature for each sensor in database ****/
 $sql			= "SELECT * FROM sensors WHERE id !='0'";
@@ -88,9 +83,7 @@ if($config['cleaning_mode'] == "1")  {
 
 
 
-
-
-/*** This part is to execute AUTOMATIC TEMPERATURE CONTROL *****/
+/*** AUTOMATIC TEMPERATURE CONTROL *****/
 $sql			= "SELECT * FROM temp_control WHERE id !='0'";
 $query			= mysqli_query($m_connect, $sql);
 while($temp		= mysqli_fetch_assoc($query)) {
@@ -105,7 +98,8 @@ eval($eval);
 
 if($debug == '1') { echo 'Automatic temperature control works. <br />'; }
 }
-/*** This part is to execute TIME SCHEDULE ****/
+
+/*** TIME SCHEDULE ****/
 $current = date('H:i:00', $tijd);
 
 $sql			= "SELECT * FROM schedule WHERE active='1'";
@@ -118,9 +112,6 @@ if($schedule['time'] == $current) {
 
 if($debug == '1') { echo 'Time schedule works. <br />'; }
 }
-
-
-
 
 
 /** This part is to controlling Automatic device Control **/
@@ -139,10 +130,6 @@ if(ReadPin(".$device['relay_pin'].") == ". $device['relay_state'].")  {
 eval($eval);
 if($debug == '1') { echo 'Automatic device control works. <br />'; }
 }
-/********/
-
-
-
 
 
 /********* Frost Protection ********/
@@ -195,8 +182,8 @@ if($debug == '1') { echo 'Frost protection works. <br />'; }
     if ($current_tub_temp >= $desired_temp) {
       WritePin($heater_relay_pin, 1);
       WritePin($pump_relay_pin, 1);
-	}
-  }
+	 }
+ }
 }
     if($debug == '1') { echo 'Heater Control works. <br />'; }
  }
@@ -222,6 +209,7 @@ if($debug == '1') { echo 'Frost protection works. <br />'; }
           }
         }
       }
-    }
+    }    
+     if($debug == '1') { echo 'Heater reset works. <br />'; }
   }
 ?>
