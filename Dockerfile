@@ -7,7 +7,7 @@ ENV APP_DB_PASS "raspberry"
 
 RUN apt-get -yq --no-install-recommends install wiringpi
 RUN apt-get -yq --no-install-recommends install syslog-ng
-
+RUN apt-get update -qq && apt-get -yq --no-install-recommends install unzip
 
 VOLUME /var/lib/mysql
 COPY docker/entrypoint.sh /
@@ -22,6 +22,6 @@ RUN chmod -R 755 /var/www
 RUN config/setup-syslog.sh
 
 RUN /bin/bash -c "chsh -s /bin/bash www-data"
-RUN /bin/su -c "curl -s http://getcomposer.org/installer | php; \
+RUN /bin/su -c "cd /var/www/html && curl -s http://getcomposer.org/installer | php; \
   php composer.phar require vlucas/phpdotenv" www-data
 
