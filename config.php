@@ -12,15 +12,13 @@ Created at 24-12-2014 at 11:17
 
 
 ini_set("display_errors","On");   /// don't show mysql errors
-
 ini_set('error_reporting',E_ALL);
 
-
 /** Mysql_ Server Data**/
-$mysql_server		= "localhost";  /// mysql server bijna altijd localhost
+$mysql_server		= "db";  /// mysql server bijna altijd localhost
 $mysql_user			= "oasis";  /// De mysql username
 $mysql_pass			= "raspberry";  /// mysql password
-$mysql_db			= "controller"; /// Welke database ?
+$mysql_db			  = "controller"; /// Welke database ?
 
 
 $mysqli = new mysqli($mysql_server, $mysql_user, $mysql_pass, $mysql_db);
