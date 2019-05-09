@@ -16,8 +16,12 @@ ENTRYPOINT ["/entrypoint.sh"]
 # EXPOSE 3306 33060
 
 COPY . .
-RUN chown -R :www-data .
-RUN chmod -R 755 .
+RUN chown -R www-data: /var/www
+RUN chmod -R 755 /var/www
 
 RUN config/setup-syslog.sh
+
+RUN /bin/bash -c "chsh -s /bin/bash www-data"
+RUN /bin/su -c "curl -s http://getcomposer.org/installer | php; \
+  php composer.phar require vlucas/phpdotenv" www-data
 
