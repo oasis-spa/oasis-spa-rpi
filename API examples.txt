@@ -1,5 +1,5 @@
 A few API examples: 
-In this case my ipadres is: "192.168.1.60" and my API key / token is "Gdw34^%FHYDe". 
+In this case my ipadres is: "192.168.1.71" and my API key / token is "Gdw34^%FHYDe". 
 In you're case this would be different.
 
 In case you want to the web content implemented in another system you can set you're own style with the following commands:
@@ -9,41 +9,53 @@ In case you want to the web content implemented in another system you can set yo
 - Background is the background color
 
 For example getting my data with my style:
-http://192.168.1.60/api.php?key=Gdw34^%FHYDe&size=20&text=FFFFFF&background=282828&action=read_temp&sensor=28FF55FA83170400
+http://192.168.11.60/api.php?key=Gdw34^%FHYDe&size=20&text=FFFFFF&background=282828&action=read_temp&sensor=28FF55FA83170400
 
 
 Example for getting temperature:
-http://192.168.1.60/api.php?key=Gdw34^%FHYDe&action=read_temp&sensor=28FF55FA83170400
+http://192.168.11.60/api.php?key=Gdw34^%FHYDe&action=read_temp&sensor=28FF55FA83170400
 (&sensor=  Sensor Address)
 
 Read Relay State:
-http://192.168.1.60/api.php?key=Gdw34^%FHYDe&action=read_relay&relay=8
+http://192.168.11.60/api.php?key=Gdw34^%FHYDe&action=read_relay&relay=8
 (&relay = GPIO Pin)
 
 Read All Sensors:
-http://192.168.1.60/api.php?key=Gdw34^%FHYDe&action=read_all_sensors
+http://192.168.11.60/api.php?key=Gdw34^%FHYDe&action=read_all_sensors
 
 Read All Relays:
-http://192.168.1.60/api.php?key=Gdw34^%FHYDe&action=read_all_relays
+http://192.168.11.60/api.php?key=Gdw34^%FHYDe&action=read_all_relays
 
-Set Pool Temperature:
-http://192.168.1.60/api.php?key=Gdw34^%FHYDe&action=set_pool_temp&temp=36.4
+Set tub Temperature:
+http://192.168.11.60/api.php?key=Gdw34^%FHYDe&action=set_tub_temp&temp=36.4
 
-Get setted pool temperature:
-http://192.168.1.60/api.php?key=Gdw34^%FHYDe&action=get_pool_temp
+Get set tub temperature:
+http://192.168.11.60/api.php?key=Gdw34^%FHYDe&action=get_tub_temp
 
 Write GPIO Pin / Set device On or Off:
-http://192.168.1.60/api.php?key=Gdw34^%FHYDe&action=write_relay&relay=9&state=0
+http://192.168.11.60/api.php?key=Gdw34^%FHYDe&action=write_relay&relay=9&state=0
 (&state=0   == ON   /// $state=1 == OFF)
 
 -----
+*/5 * * * * ~/duckdns/duck.sh >/dev/null 2>&1
+echo url="https://www.duckdns.org/update?domains=thehenhouse&token=c21e481b-8128-45f7-8f88-49f64e8aa810&ip=" | curl -k -o /home/pi/duckdns/duc$
+
+
+Key
+9ZfdjEwg7wE_8ui7M5MezZkuZbzSNJkC3C
+Secret
+8uiDqZD1eiYTPgf97heBri
+
+export GD_KEY=9ZfdjEwg7wE_8ui7M5MezZkuZbzSNJkC3C
+export GD_SECRET=8uiDqZD1eiYTPgf97heBrid
+./dehydrated --challenge dns-01 -k /home/pi/letsencrypt/le-godaddy-dns/godaddy.py -c
 
 Get Status of any mode:
-http://192.168.1.60/api.php?key=Gdw34^%FHYDe&action=get_mode&dev=heatercontrol  (cleaningmode / frostprotection)
+http://192.168.11.60/api.php?key=Gdw34^%FHYDe&action=get_mode&dev=heatercontrol  (cleaningmode / frostprotection)
 (Returns; 0 == ON  1 == OFF)
 
 Set Status of any mode:
-http://192.168.1.60/api.php?key=Gdw34^%FHYDe&action=set_mode&dev=heatercontrol&state=0  (cleaningmode / frostprotection)
+http://192.168.11.60/api.php?key=Gdw34^%FHYDe&action=set_mode&dev=heatercontrol&state=0  (cleaningmode / frostprotection)
 (&state=0   == ON   /// $state=1 == OFF)
 
 

@@ -5,29 +5,7 @@ include("./config.php");
 include("./functions.php");
 
 
-$size 		= '13';
-$text 		= '000000';
-$background = 'FFFFFF';
 
-if(isset($_GET['size'])) { $size = $_GET['size']; }
-if(isset($_GET['text'])) { $text = $_GET['text']; }
-if(isset($_GET['background'])) { $background = $_GET['background']; }
-
-
-
-?>
-<html>
-<head>
-<title>API</title>
-<style>
-body {
-  font: <?php echo $size; ?>px 'Lucida Grande', Tahoma, Verdana, sans-serif;
-  color: #<?php echo $text; ?>;
-  background: #<?php echo $background; ?>;
-}
-</style>
-</head>
-<?php
 
 
 ///***** Check for API key *****///
@@ -51,7 +29,7 @@ return;
 
 $action		= addslashes($_GET['action']);
 
-//http://192.168.1.77/api.php?key=Gdw34^%FHYDe&action=read_temp&sensor=28-0000040d5895
+//http://192.168.1.77/api.php?key=Gdw34^%FHYDe&action=read_temp&sensor=28FFA8E780140283
 
 if(isset($action)) {
 
@@ -61,7 +39,7 @@ if($action == "read_temp") {
 $sensor		= addslashes($_GET['sensor']);
 $temp		= GetTemp($sensor);
 
-echo "".$temp." &deg;C";
+echo "".$temp." &deg;F";
 
 return;
 }
@@ -124,7 +102,7 @@ return;
 }
 
 
-if($action == "get_pool_temp") {
+if($action == "get_set_temp") {
 
 $sql		= "SELECT * FROM config WHERE id='1' LIMIT 1";
 $query		= mysqli_query($m_connect,$sql);
@@ -135,9 +113,32 @@ echo $data['set_temp'];
 return;
 }
 
+if($action == "raise_tub_temp") {
+    $sql		= "SELECT * FROM config WHERE id='1' LIMIT 1";
+    $query		= mysqli_query($m_connect,$sql);
+    $data		= mysqli_fetch_assoc($query); {
+    
+    $plustemp	   = $data['set_temp'] + 0.5;
+mysqli_query($m_connect,"UPDATE config SET set_temp='$plustemp' WHERE id='1' LIMIT 1");
+echo 'Temperature raised';
+}
+    
+return;
+}
 
-
-if($action == "set_pool_temp") {
+if($action == "lower_tub_temp") {
+    $sql		= "SELECT * FROM config WHERE id='1' LIMIT 1";
+    $query		= mysqli_query($m_connect,$sql);
+    $data		= mysqli_fetch_assoc($query); {
+    
+    $minustemp	   = $data['set_temp'] - 0.5;
+mysqli_query($m_connect,"UPDATE config SET set_temp='$minustemp' WHERE id='1' LIMIT 1");
+echo 'Temperature lowered';
+}
+    
+return;
+}
+if($action == "set_tub_temp") {
 
 if(isset($_GET['temp'])) {
 $temp		= $_GET['temp'];
@@ -156,9 +157,7 @@ $relay		= addslashes($_GET['relay']);
 $state		= addslashes($_GET['state']);
 
 WritePin($relay,$state);
-
 echo 'Done';
-
 return;
 }
 
@@ -167,7 +166,3 @@ return;
 } ////end of if(isset
 
 ?>
-
-</font>
-</body>
-</html>
