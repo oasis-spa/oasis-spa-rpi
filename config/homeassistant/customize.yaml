@@ -1,0 +1,24 @@
+switch.heater_gpio:
+  hidden: true
+group.hidden_switches:
+  hidden: true
+switch.shower_gpio:
+  hidden: true
+switch.fresh_in_gpio:
+  hidden: true
+switch.pump_gpio:
+  hidden: true
+  icon: water-pump
+switch.pump_temps: {}
+switch.tub_switch:
+  friendly_name: Tub Switch
+  icon: mdi:hot-tub
+switch.lights:
+  icon: mdi:lightbulb-on
+switch.raise_tub_temp:
+  device_class: switch
+  icon: mdi:plus
+sensor.current_set_temp:
+  device_class: temperature
+  icon: mdi:oil-temperature
+  unit_of_measurement: °F

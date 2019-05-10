@@ -1,0 +1,7 @@
+views:
+  - title: Oasis Home Spa
+    icon: mdi:hot-tub
+    cards: 
+     - type: sensor
+       entity: sensor.tub_temp
+       name: Tub Temp

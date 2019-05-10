@@ -1,0 +1,195 @@
+homeassistant:
+  name: 'Oasis Spa'
+  latitude: 47.6062
+  longitude: -122.3321
+  elevation: 500
+  unit_system: imperial
+  time_zone: America/Los_Angeles
+  customize: !include customize.yaml 
+frontend:  
+recorder:
+  purge_interval: 2
+  purge_keep_days: 7
+config:  
+system_health:  
+http:
+  server_port: 8123
+updater:  
+discovery:  
+conversation:  
+history:  
+logbook:  
+cloud:  
+group: !include groups.yaml
+automation: !include automations.yaml
+script: !include scripts.yaml 
+map:  
+sun:  
+panel_iframe:
+  hot_tub:
+    title: Hen-Spa
+    url: 'http://hen-spa'
+    icon: 'mdi:hot-tub'
+sensor:
+  -
+    platform: yr
+  -
+    platform: mqtt
+    state_topic: tub/pump/temperature/0
+    name: 'TUB WATER TEMP'
+    unit_of_measurement: °F
+  -
+    platform: mqtt
+    name: 'OUTDOOR AIR TEMP'
+    state_topic: tub/pump/temperature/2
+    unit_of_measurement: °F
+  -
+    platform: mqtt
+    name: 'HEATER TEMP'
+    state_topic: tub/pump/temperature/1
+    unit_of_measurement: °F
+  -
+    platform: rest
+    resource: http://hen-spa/api.php?key=Gdw34^%FHYDe&action=get_set_temp
+    name: DESIRED TUB TEMP
+    unit_of_measurement: °F
+  -
+    platform: mqtt  
+    state_topic: "tub/weather/sensornode1"  
+    name: "SN1 Humidity"  
+    unit_of_measurement: "%"  
+    value_template: '{{ value_json.humidity | round(1) }}'  
+  -
+    platform: mqtt  
+    state_topic: "tub/weather/sensornode1"  
+    name: "SN1 Temperature"  
+    unit_of_measurement: "°F"  
+    value_template: '{{ value_json.temperature | round(1) }}'
+  -
+    platform: mqtt  
+    state_topic: "tub/weather/sensornode1"  
+    name: "SN1 Real Feel"
+    unit_of_measurement: "°F"
+    value_template: '{{ value_json.heatIndex | round(1) }}'
+mqtt:
+  broker: 192.168.22.1
+switch:
+  -
+    platform: mqtt
+    name: 'Shower Touch Switch'
+    icon: 'mdi:shower-head'
+    payload_available: 1
+    payload_not_available: 0
+    state_topic: tub/touch/relay/0
+    command_topic: tub/touch/relay/0/set
+    payload_on: 1
+    payload_off: 0
+    optimistic: false
+    qos: 1
+    retain: true
+  -
+    platform: mqtt
+    name: 'Egg / Heater loop'
+    icon: 'mdi:sync'
+    payload_available: 1
+    payload_not_available: 0
+    state_topic: tub/4ch/relay/0
+    command_topic: tub/4ch/relay/0/set
+    payload_on: 1
+    payload_off: 0
+    qos: 1
+    retain: true
+  -
+    platform: mqtt
+    name: 'Spa | Fresh Water IN valve'
+    icon: 'mdi:water'    
+    state_topic: tub/4ch/relay/1
+    command_topic: tub/4ch/relay/1/set
+    payload_on: 1
+    payload_off: 0
+    payload_available: 1
+    payload_not_available: 0
+  -
+    platform: mqtt
+    name: 'Shower | Tub OUT valve'
+    icon: 'mdi:water'     
+    state_topic: tub/4ch/relay/2
+    command_topic: tub/4ch/relay/2/set
+    payload_on: 1
+    payload_off: 0
+    payload_available: 1
+    payload_not_available: 0
+  -
+    platform: mqtt
+    name: Water Heater
+    icon: 'mdi:radiator'     
+    payload_available: 1
+    payload_not_available: 0
+    state_topic: tub/4ch/relay/3
+    command_topic: tub/4ch/relay/3/set
+    payload_on: 1
+    payload_off: 0
+    qos: 1
+    retain: true
+  -
+    platform: mqtt
+    name: 'Water Pump'
+    icon: 'mdi:water-pump'
+    payload_available: 1
+    payload_not_available: 0
+    state_topic: tub/pump/relay/0
+    command_topic: tub/pump/relay/0/set
+    payload_on: 1
+    payload_off: 0
+    qos: 1
+    retain: true
+  -
+    platform: mqtt
+    name: 'Fill switch (incoming switch)'
+    icon: 'mdi:cup-water'    
+    payload_available: 1
+    payload_not_available: 0
+    state_topic: tub/fill/relay/0
+    command_topic: tub/fill/relay/0/set
+    payload_on: 1
+    payload_off: 0
+    qos: 1
+    retain: true
+  -
+    platform: rpi_gpio
+    invert_logic: true
+    ports:
+      '18': 'Tub Switch'
+      '21': 'Lights'
+      '6' : 'Heater gpio'
+      '4':  'fresh in gpio'
+      '2':  'Shower gpio'
+      '5' : 'Pump gpio'
+  -
+    platform: rest
+    resource: http://hen-spa/api.php?key=Gdw34^%FHYDe&action=raise_tub_temp
+    name: Raise Tub Temp
+  -
+    platform: rest
+    resource: http://hen-spa/api.php?key=Gdw34^%FHYDe&action=lower_tub_temp
+    name: Lower Tub Temp
+timer:
+  tubtimer:
+    duration: '03:00:00'
+    name: HEATER WILL TURN OFF IN...
+binary_sensor:
+  -
+    platform: rpi_gpio
+    ports:
+      '18': 'Tub Automation'
+rest_command:
+  set_temp_104:
+    url: 'http://hen-spa/api.php?key=Gdw34^%FHYDe&action=set_tub_temp&temp=104'
+  set_temp_90:
+    url: 'http://hen-spa/api.php?key=Gdw34^%FHYDe&action=set_tub_temp&temp=90'
+  raise_temp:
+    url: 'http://hen-spa/api.php?key=Gdw34^%FHYDe&action=raise_tub_temp'
+  lower_temp:
+    url: 'http://hen-spa/api.php?key=Gdw34^%FHYDe&action=lower_tub_temp'
+
+

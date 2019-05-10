@@ -1,0 +1,13 @@
+sensor_node_1_card:  
+  name: Sensors
+  entities:  
+    - sensor.sn1_temperature  
+    - sensor.sn1_humidity  
+#   - sensor.sn1_ldr  
+#   - sensor.sn1_pir
+#      - light.sn1_led
+Hidden Switches:
+  - switch.heater_gpio
+  - switch.fresh_in_gpio
+  - switch.shower_gpio
+  - switch.pump_gpio

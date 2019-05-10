@@ -1,0 +1,176 @@
+- action:
+  - data:
+      payload: 0
+      topic: tub/4ch/relay/0/set
+    service: mqtt.publish
+  - data:
+      payload: 1
+      topic: tub/4ch/relay/1/set
+    service: mqtt.publish
+  - data:
+      payload: 1
+      topic: tub/4ch/relay/2/set
+    service: mqtt.publish
+  - data:
+      payload: 1
+      topic: tub/4ch/relay/3/set
+    service: mqtt.publish
+  - data:
+      payload: 1
+      topic: tub/light/relay/0/set
+    service: mqtt.publish
+  alias: Shower ON main
+  id: '1523909935749'
+  trigger:
+  - payload: 1
+    platform: mqtt
+    topic: tub/touch/relay/0
+- action:
+  - delay: 00:00:03
+  - data:
+      payload: 0
+      topic: tub/pump/relay/0/set
+    service: mqtt.publish
+  alias: Shower ON pump delay
+  id: '1523909935563'
+  trigger:
+  - payload: 1
+    platform: mqtt
+    topic: tub/touch/relay/0
+- action:
+  - data:
+      payload: 0
+      topic: tub/4ch/relay/1/set
+    service: mqtt.publish
+  - data:
+      payload: 0
+      topic: tub/4ch/relay/2/set
+    service: mqtt.publish
+  alias: Shower OFF
+  id: '1523911917153'
+  trigger:
+  - payload: 0
+    platform: mqtt
+    topic: tub/touch/relay/0
+- action:
+  - data:
+      payload: 0
+      topic: tub/4ch/relay/1/set
+    service: mqtt.publish
+  - data:
+      payload: 0
+      topic: tub/4ch/relay/2/set
+    service: mqtt.publish
+  - data:
+      payload: 0
+      topic: tub/4ch/relay/3/set
+    service: mqtt.publish
+  alias: Tub Fill OFF
+  id: '1523911917150'
+  trigger:
+  - payload: 0
+    platform: mqtt
+    topic: tub/fill/relay/0/set
+- action:
+  - data:
+      payload: 1
+      topic: tub/4ch/relay/1/set
+    service: mqtt.publish
+  - data:
+      payload: 0
+      topic: tub/pump/relay/0/set
+    service: mqtt.publish
+  - data:
+      payload: 0
+      topic: tub/4ch/relay/2/set
+    service: mqtt.publish
+  - data:
+      payload: 1
+      topic: tub/4ch/relay/3/set
+    service: mqtt.publish
+  alias: Tub Fill ON
+  id: '1523911917159'
+  trigger:
+  - payload: 1
+    platform: mqtt
+    topic: tub/fill/relay/0/set
+- action:
+  - data:
+      payload: 1
+      topic: tub/4ch/relay/0/set
+    service: mqtt.publish
+  alias: Loop Open When Pump On
+  id: '1523911917151'
+  trigger:
+  - payload: 1
+    platform: mqtt
+    topic: tub/pump/relay/0/set
+- action:
+  - data:
+      payload: 0
+      topic: tub/4ch/relay/0/set
+    service: mqtt.publish
+  alias: Loop Closed When Pump Off
+  id: '1523911917152'
+  trigger:
+  - payload: 0
+    platform: mqtt
+    topic: tub/pump/relay/0/set
+- id: '152391191000'
+  alias: Tub Switch On
+  trigger:
+  - payload: 1
+    platform: mqtt
+    topic: tub/control/relay/0/set
+  action:
+  - service: rest_command.set_temp_104
+  - service: switch.turn_on
+    entity_id: switch.tub_switch
+- id: '152391191001'
+  alias: Tub Switch Off
+  trigger:
+  - payload: 0
+    platform: mqtt
+    topic: tub/control/relay/0/set
+  action:
+  - service: rest_command.set_temp_90
+  - service: switch.turn_off
+    entity_id: switch.tub_switch
+- id: '152391191002'
+  alias: Lights off
+  trigger:
+  - payload: 0
+    platform: mqtt
+    topic: tub/light/relay/0/set
+  action:
+  - service: switch.turn_off
+    entity_id: switch.lights
+- id: '152391191003'
+  alias: Lights On
+  trigger:
+  - payload: 1
+    platform: mqtt
+    topic: tub/light/relay/0/set
+  action:
+  - service: switch.turn_on
+    entity_id: switch.lights
+- alias: tubtimerstart
+  id: tubstart
+  trigger:
+  - platform: state
+    entity_id: switch.tub_switch
+    to: 'on'
+  action:
+  - service: timer.start
+    entity_id: timer.tubtimer
+- alias: timerreset
+  id: tubstop
+  trigger:
+  - platform: event
+    event_type: timer.finished
+    event_data:
+      entity_id: timer.tubtimer
+  action:
+  - service: switch.turn_off
+    data:
+      entity_id: switch.tub_switch
