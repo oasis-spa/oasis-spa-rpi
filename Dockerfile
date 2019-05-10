@@ -15,7 +15,7 @@ RUN config/setup-syslog.sh
 
 RUN /bin/bash -c "chsh -s /bin/bash www-data"
 RUN /bin/su -c "cd /var/www/html && curl -s http://getcomposer.org/installer | php; \
-  php composer.phar require vlucas/phpdotenv" www-data
+  php composer.phar require vlucas/phpdotenv bluerhinos/phpmqtt:dev-master;" www-data
   
 COPY docker/entrypoint.sh /
 ENTRYPOINT ["/entrypoint.sh"]
