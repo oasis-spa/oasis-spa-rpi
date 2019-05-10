@@ -1,11 +1,11 @@
 <?php 
 namespace Models;
-require_once(__ROOT__.'/html/models/relay.php'); 
+require_once(__ROOT__.'/html/models/relay.php');
 
 class Model {
   private $db;
   private $db_object;
-
+  
   public function __construct($id = '') {
     global $mysqli;
 
@@ -31,5 +31,17 @@ class Model {
       throw new \Exception("Property $property not defined.");
     }
     return $this;
+  }
+  
+  public function publish($topic, $payload) {
+    global $mqtt;
+    $qos = 0;
+    
+    if ($mqtt->connect(true,NULL)) {
+      $mqtt->publish($topic, $payload, $qos);
+      $mqtt->close();
+    } else {
+      throw new \Exception("Failed to connect to MQTT broker.");
+    }
   }
 }

@@ -37,5 +37,16 @@ services:
       - 3306
     volumes:
       - mysqldata:/var/lib/mysql
+  mqtt:
+    image: pascaldevink/rpi-mosquitto
+    command: >
+      bash -c "/bin/chown -R mosquitto /mqtt
+      && /usr/sbin/mosquitto -c /mqtt/config/mosquitto.conf"
+    restart: always
+    volumes:
+      - /mqtt
+    ports:
+      - "$MQTT_TCP_PORT:1883"
+      - "$MQTT_WS_PORT:9001"
 volumes:
   mysqldata:

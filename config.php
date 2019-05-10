@@ -16,9 +16,12 @@ ini_set('error_reporting',E_ALL);
 ini_set("variables_order","EGPCS");
 
 require __DIR__ . '/vendor/autoload.php';
+require __DIR__.'/models/model.php';
 
 $dotenv = Dotenv\Dotenv::create(__DIR__);
 $dotenv->load();
+
+$mqtt = new Bluerhinos\phpMQTT(getenv("MQTT_HOST"), getenv("MQTT_TCP_PORT"), "oasis-phpapp".rand());
 
 /** Mysql_ Server Data**/
 $mysql_server		= getenv("DB_HOST");  /// mysql server bijna altijd localhost
