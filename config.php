@@ -12,16 +12,19 @@ Created at 24-12-2014 at 11:17
 
 
 ini_set("display_errors","On");   /// don't show mysql errors
-
 ini_set('error_reporting',E_ALL);
+ini_set("variables_order","EGPCS");
 
+require __DIR__ . '/vendor/autoload.php';
+
+$dotenv = Dotenv\Dotenv::create(__DIR__);
+$dotenv->load();
 
 /** Mysql_ Server Data**/
-$mysql_server		= "localhost";  /// mysql server bijna altijd localhost
-$mysql_user			= "oasis";  /// De mysql username
-$mysql_pass			= "raspberry";  /// mysql password
-$mysql_db			= "controller"; /// Welke database ?
-
+$mysql_server		= getenv("DB_HOST");  /// mysql server bijna altijd localhost
+$mysql_user			= getenv("MYSQL_USER");  /// De mysql username
+$mysql_pass			= getenv("MYSQL_PASSWORD");  /// mysql password
+$mysql_db			  = getenv("MYSQL_DATABASE"); /// Welke database ?
 
 $mysqli = new mysqli($mysql_server, $mysql_user, $mysql_pass, $mysql_db);
 

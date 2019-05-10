@@ -1,0 +1,41 @@
+version: '3.3'
+services:
+  phpapp:
+    build: .
+    command: start
+    volumes:
+      - .:/var/www/html
+    ports:
+      - "$PHPAPP_PORT:80"
+    # devices:
+    #   - /dev/gpiomem
+    depends_on:
+      - db
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:4.8
+    environment:
+      - PMA_ARBITRARY=1
+      - PMA_HOST=db
+      - PMA_USER=$MYSQL_USER
+      - PMA_PASSWORD=$MYSQL_PASSWORD
+    restart: always
+    ports:
+      - "$MYSQLADMIN_PORT:80"
+    volumes:
+      - /sessions
+    links:
+      - db
+  db:
+    image: mysql:5.7
+    restart: always
+    environment:
+      - MYSQL_DATABASE=$MYSQL_DATABASE
+      - MYSQL_USER=$MYSQL_USER
+      - MYSQL_PASSWORD=$MYSQL_PASSWORD
+      - MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD
+    expose:
+      - 3306
+    volumes:
+      - mysqldata:/var/lib/mysql
+volumes:
+  mysqldata:

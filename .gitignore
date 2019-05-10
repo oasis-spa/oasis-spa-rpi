@@ -1,1 +1,4 @@
 sensors/*
+.env
+vendor/*
+composer*
