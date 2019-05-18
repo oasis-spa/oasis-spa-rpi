@@ -2,9 +2,10 @@ version: '3.3'
 services:
   phpapp:
     build: .
-    command: start
+    command: initstart
     volumes:
       - .:/var/www/html
+    env_file: .env
     ports:
       - "$PHPAPP_PORT:80"
     # devices:
@@ -23,10 +24,11 @@ services:
       - "$MYSQLADMIN_PORT:80"
     volumes:
       - /sessions
-    links:
+    depends_on:
       - db
+      - phpapp
   db:
-    image: mysql:5.6
+    image: mysql:5.7
     restart: always
     environment:
       - MYSQL_DATABASE=$MYSQL_DATABASE

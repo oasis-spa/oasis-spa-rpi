@@ -3,26 +3,57 @@ set -e
 service syslog-ng start
 service apache2 start
 
-if [[ "$1" = 'init' ]]; then
+init () {
   echo "Setting up oasis controller"
-  if [[ ! "$(mysql -h $DB_HOST -u $MYSQL_USER -p $MYSQL_PASSWORD -e 'use $MYSQL_DATABASE')" ]]; then
-    echo "DB doesn't exist. Creating database..."
-    mysql -e "create database $MYSQL_DATABASE"
-    mysql -e "GRANT ALL PRIVILEGES ON *.* TO '$MYSQL_USER'@'%' IDENTIFIED BY '$MYSQL_PASSWORD';"
-    echo "Running schema.sql..."
-    mysql -h $DB_HOST -u $MYSQL_USER -p $MYSQL_PASSWORD $MYSQL_DATABASE < /var/www/html/db/schema.sql
-    echo "Running seed.sql..."
-    mysql -h $DB_HOST -u $MYSQL_USER -p $MYSQL_PASSWORD $MYSQL_DATABASE < /var/www/html/db/seed.sql
+  waitfordb
+  if [[ -n $(mysql -h $DB_HOST -u root --password=$MYSQL_ROOT_PASSWORD -e "use ${MYSQL_DATABASE}") ]]; then
+    echo "DB $MYSQL_DATABASE doesn't exist. Creating database..."
+    mysql -h $DB_HOST -u root --password=$MYSQL_ROOT_PASSWORD -e "create database $MYSQL_DATABASE"
   else
-    echo "WARNING: DB $MYSQL_DATABASE already exists. Drop it before running init."
+    echo "DB $MYSQL_DATABASE exists"
   fi
-  echo "Init complete. Restart the container with the start command."
-elif [[ "$1" = 'start' ]]; then
+
+  COUNT=$(mysql -h $DB_HOST -u root --password=$MYSQL_ROOT_PASSWORD $MYSQL_DATABASE -sse \
+    "select count(*) from information_schema.tables where table_schema='${MYSQL_DATABASE}' and table_name='users';")
+  
+  if [[ ! $COUNT -eq 1 ]]; then
+    echo "Schema not loaded. Loading..."
+    mysql -h $DB_HOST -u root --password=$MYSQL_ROOT_PASSWORD -e "GRANT ALL PRIVILEGES ON *.* TO '$MYSQL_USER'@'%' IDENTIFIED BY '$MYSQL_PASSWORD';"
+    echo "Running schema.sql..."
+    mysql -h $DB_HOST -u $MYSQL_USER --password=$MYSQL_PASSWORD $MYSQL_DATABASE < /var/www/html/db/schema.sql
+    echo "Running seed.sql..."
+    mysql -h $DB_HOST -u $MYSQL_USER --password=$MYSQL_PASSWORD $MYSQL_DATABASE < /var/www/html/db/seed.sql
+  else
+    echo "DB $MYSQL_DATABASE schema present"
+  fi
+}
+
+start () {
   echo "Starting oasis controller"
   syslog-ng-ctl reload
+  waitfordb
   echo "Started"
   tail -f /var/log/syslog
-  # trap : TERM INT; sleep infinity & wait
-else
+}
+
+waitfordb () {
+  until mysql -h $DB_HOST -u $MYSQL_USER --password=$MYSQL_PASSWORD -e "show databases;"; do
+    echo "MySQL is unavailable - sleeping..."
+    sleep 1
+  done
+}
+
+case "$1" in
+init)
+  init
+  ;;
+start)
+  start
+  ;;
+initstart)
+  init
+  start
+  ;;
+*)
   exec "$@"
-fi
+esac
