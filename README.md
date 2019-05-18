@@ -38,8 +38,23 @@ Install docker using [the convenience script](https://docs.docker.com/install/li
 
 Add the pi user to the docker group `sudo usermod -aG docker pi`
 
-https://docs.docker.com/install/linux/docker-ce/debian/
+Install docker-compose
+```
+sudo apt-get update && sudo apt-get install -y --no-install-recommends docker-compose
+```
 
+Read more: https://docs.docker.com/install/linux/docker-ce/debian/
+
+### Run with docker-compose
+/* This is the recommended approach.
+
+Copy or rename [default.env](default.env) to `.env`.
+
+```
+docker-compose up -d --build
+```
+
+### Build with Docker
 From this repo `docker build -t oasis .`
 
 Set up the database with `init` command
