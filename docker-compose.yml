@@ -1,4 +1,4 @@
-version: '3.3'
+version: '2'
 services:
   phpapp:
     build: .
@@ -13,7 +13,7 @@ services:
     depends_on:
       - db
   phpmyadmin:
-    image: phpmyadmin/phpmyadmin:4.8
+    image: ebspace/armhf-phpmyadmin
     environment:
       - PMA_ARBITRARY=1
       - PMA_HOST=db
@@ -26,9 +26,8 @@ services:
       - /sessions
     depends_on:
       - db
-      - phpapp
   db:
-    image: tobi312/rpi-mysql:5.6
+    image: yobasystems/alpine-mariadb:armhf
     restart: always
     environment:
       - MYSQL_DATABASE=$MYSQL_DATABASE
