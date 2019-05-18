@@ -1,0 +1,6 @@
+{
+    "require": {
+        "vlucas/phpdotenv": "^3.3",
+        "bluerhinos/phpmqtt": "dev-master"
+    }
+}

@@ -1,4 +1,5 @@
 sensors/*
 .env
 vendor/*
-composer*
+!/vendor/.keep
+composer.phar
