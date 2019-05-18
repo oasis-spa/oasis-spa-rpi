@@ -3,8 +3,8 @@ services:
   phpapp:
     build: .
     command: initstart
-    volumes:
-      - .:/var/www/html
+    #    volumes:
+    #      - .:/var/www/html
     env_file: .env
     ports:
       - "$PHPAPP_PORT:80"

@@ -5,6 +5,8 @@ service apache2 start
 
 init () {
   echo "Setting up oasis controller"
+  chown -R www-data: /var/www/html
+  /bin/su -c "cd /var/www/html && php composer.phar --no-dev install" www-data
   waitfordb
   if [[ -n $(mysql -h $DB_HOST -u root --password=$MYSQL_ROOT_PASSWORD -e "use ${MYSQL_DATABASE}") ]]; then
     echo "DB $MYSQL_DATABASE doesn't exist. Creating database..."
