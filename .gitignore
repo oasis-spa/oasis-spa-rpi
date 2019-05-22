@@ -1,4 +1,5 @@
 sensors/*
+!sensors/.keep
 .env
 vendor/*
 !/vendor/.keep
