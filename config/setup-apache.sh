@@ -24,8 +24,8 @@ cat <<EOF >/etc/apache2/sites-enabled/000-default.conf
 	# modules, e.g.
 	#LogLevel info ssl:warn
 
-	ErrorLog ${APACHE_LOG_DIR}/error.log
-	CustomLog ${APACHE_LOG_DIR}/access.log combined
+	ErrorLog /var/log/apache2/error.log
+	CustomLog /var/log/apache2/access.log combined
 
 	# For most configuration files from conf-available/, which are
 	# enabled or disabled at a global level, it is possible to
