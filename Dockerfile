@@ -15,6 +15,7 @@ RUN chown -R www-data: /var/www
 RUN chmod -R 755 /var/www
 
 RUN config/setup-apache.sh
+RUN config/setup-cron.sh
 RUN config/setup-syslog.sh
 
 RUN /bin/su -c "cd /var/www/html && curl -s http://getcomposer.org/installer | php" www-data
