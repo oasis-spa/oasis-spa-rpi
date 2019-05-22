@@ -3,6 +3,7 @@ services:
   phpapp:
     build: .
     command: initstart
+    restart: always
     #    volumes:
     #      - .:/var/www/html
     env_file: .env
