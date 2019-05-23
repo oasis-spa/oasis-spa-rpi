@@ -23,7 +23,7 @@ $heater_relay_pin = $config['heater_relay'];
 $pump_relay_pin = $config['pump_relay'];
 
 
-/**** sensor value write *****/
+/**** sensor value write 
 To add new sensors, copy the two lines and replace the new API in the URL. Create a unique folder with the Sensor ID (in main espurna status screen). Sensor folder should be placed
 in /var/log/sensors/[sensor ID]/ with a blank file called 'sonoff_th' inside. You can get the Sensor ID from espurna status screen to the right of the Temperature reading.
 Place that sensor ID in the two lines. ****/
@@ -156,60 +156,63 @@ if($debug == '1') { echo 'Frost protection works. <br />'; }
 }
 
 /**** Heater Control , to get tub nice and warm ****/
-  $sql = "SELECT * FROM relays WHERE id !='0'";
-  $query = mysqli_query($m_connect, $sql);
-  
-  while($relay	= mysqli_fetch_assoc($query)) {
-    if($config['heater_control'] == '1') {
-      $temp_deviation = intval($config['set_temp_dev']);
-      $desired_temp = intval($config['set_temp']);
-      $current_tub_temp = intval(GetTemp($heater_sensor_id));
+$sql = "SELECT * FROM relays WHERE id !='0'";
+$query = mysqli_query($m_connect, $sql);
 
-	// if the heater relay is on...
-    if(ReadPin($relay['pin']) == 1 && $relay['pin'] == $heater_relay_pin)  {
-    // if the current heater temp plus deviation is less than the desired temp 
-    // then turn the heater and pump on
-       if ($current_tub_temp + $temp_deviation < $desired_temp) {
-         WritePin($heater_relay_pin, 0);
-         WritePin($pump_relay_pin, 0);
-    }
-   }
- {
-	
-    // if the current heater temp is greater or equal to the desired temp
-    // then turn the heater and pump off
-  if(ReadPin($relay['pin']) == 0 && $relay['pin'] == $heater_relay_pin)  {
-    if ($current_tub_temp >= $desired_temp) {
-      WritePin($heater_relay_pin, 1);
-      WritePin($pump_relay_pin, 1);
-	 }
- }
-}
-    if($debug == '1') { echo 'Heater Control works. <br />'; }
- }
-} 
-  $sql = "SELECT * FROM relays WHERE id !='0'";
-  $query = mysqli_query($m_connect, $sql);
-  
-  while($relay	= mysqli_fetch_assoc($query)) {
-    if(ReadPin($relay['pin']) == 0)  {
-      // if the heater relay is on...
-      if(ReadPin($relay['pin']) == 0 && $relay['pin'] == $heater_relay_pin) {
-      	$heater_time_on = strtotime($relay['time_on']);
-      	if ($heater_time_on == null) {
-          // set the heater time on value to now
-          mysqli_query($m_connect, "UPDATE relays SET time_on = FROM_UNIXTIME({$now}) WHERE id = {$relay['id']} LIMIT 1");
-        } else {
-          $delta_mins = ($now - $heater_time_on) / 60;
-          echo "The heater has been on for {$delta_mins} minutes.<br/>";
-          if ($delta_mins > 18 ) {
-            echo "Turning off the heater.<br/>";
-              WritePin($heater_relay_pin, 1);
-              mysqli_query($m_connect, "UPDATE relays SET time_on = null WHERE id = {$relay['id']} LIMIT 1");
-          }
+while($relay	= mysqli_fetch_assoc($query)) {
+  if($config['heater_control'] == '1') {
+    $temp_deviation = intval($config['set_temp_dev']);
+    $desired_temp = intval($config['set_temp']);
+    $current_tub_temp = intval(GetTemp($heater_sensor_id));
+
+    // only apply to the heater relay
+    if($relay['pin'] == $heater_relay_pin) {
+      // if the heater relay is off...
+      if(ReadPin($relay['pin']) == 1)  {
+        // if the current heater temp plus deviation is less than the desired temp 
+        // then turn the heater and pump on
+        if ($current_tub_temp + $temp_deviation < $desired_temp) {
+          WritePin($heater_relay_pin, 0);
+          WritePin($pump_relay_pin, 0);
+        }
+      } else {
+        // if the heater is on and current heater temp is greater or equal to the desired temp
+        // then turn the heater and pump off
+        if ($current_tub_temp >= $desired_temp) {
+          WritePin($heater_relay_pin, 1);
+          WritePin($pump_relay_pin, 1);
         }
       }
-    }    
-     if($debug == '1') { echo 'Heater reset works. <br />'; }
+    }
   }
+}
+
+if($debug == '1') { echo 'Heater Control works. <br />'; }
+
+/**** Heater Reset, to turn off the heater after 18 minutes ****/
+
+$sql = "SELECT * FROM relays WHERE id !='0'";
+$query = mysqli_query($m_connect, $sql);
+
+while($relay	= mysqli_fetch_assoc($query)) {
+  if(ReadPin($relay['pin']) == 0)  {
+    // if the heater relay is on...
+    if(ReadPin($relay['pin']) == 0 && $relay['pin'] == $heater_relay_pin) {
+    	$heater_time_on = strtotime($relay['time_on']);
+    	if ($heater_time_on == null) {
+        // set the heater time on value to now
+        mysqli_query($m_connect, "UPDATE relays SET time_on = FROM_UNIXTIME({$now}) WHERE id = {$relay['id']} LIMIT 1");
+      } else {
+        $delta_mins = ($now - $heater_time_on) / 60;
+        echo "The heater has been on for {$delta_mins} minutes.<br/>";
+        if ($delta_mins > 18 ) {
+          echo "Turning off the heater.<br/>";
+          WritePin($heater_relay_pin, 1);
+          mysqli_query($m_connect, "UPDATE relays SET time_on = null WHERE id = {$relay['id']} LIMIT 1");
+        }
+      }
+    }
+  }    
+}
+if($debug == '1') { echo 'Heater reset works. <br />'; }
 ?>
