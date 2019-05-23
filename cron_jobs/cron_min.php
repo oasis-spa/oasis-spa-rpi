@@ -1,5 +1,5 @@
 <?php
-$debug = '0';
+$debug = '1';
 
 
 /****
@@ -25,20 +25,20 @@ $pump_relay_pin = $config['pump_relay'];
 
 /**** sensor value write 
 To add new sensors, copy the two lines and replace the new API in the URL. Create a unique folder with the Sensor ID (in main espurna status screen). Sensor folder should be placed
-in /var/log/sensors/[sensor ID]/ with a blank file called 'sonoff_th' inside. You can get the Sensor ID from espurna status screen to the right of the Temperature reading.
+in /var/www/html/sensors/[sensor ID]/ with a blank file called 'sonoff_th' inside. You can get the Sensor ID from espurna status screen to the right of the Temperature reading.
 Place that sensor ID in the two lines. ****/
 
 /**** In-Tub Temperature Sensor ****/
-echo file_put_contents("/var/log/sensors/28FFB1A88317041A/sonoff_th","Current Tub Temperature \n");
-exec('curl -s http://192.168.10.63/api/temperature?apikey=9E2CA07C2C799F9C >> /var/log/sensors/28FFB1A88317041A/sonoff_th');
+echo file_put_contents("/var/www/html/sensors/28FFA8E780140283/sonoff_th","Current Tub Temperature \n");
+exec('curl -s http://192.168.22.61/api/temperature/1?apikey=356F97ED779751B5 >> /var/www/html/sensors/28FFA8E780140283/sonoff_th');
 
 /**** Incoming Water Temperature Sensor ****/
-echo file_put_contents("/var/log/sensors/28FF55FA83170400/sonoff_th","Incoming Tub Temperature \n");
-exec('curl -s http://192.168.10.62/api/temperature?apikey=5DA9DCA3BD9DD86C >> /var/log/sensors/28FF55FA83170400/sonoff_th');
+echo file_put_contents("/var/www/html/sensors/28FF1D83241703E3/sonoff_th","Incoming Tub Temperature \n");
+exec('curl -s http://192.168.22.61/api/temperature/2?apikey=356F97ED779751B5 >> /var/www/html/sensors/28FF1D83241703E3/sonoff_th');
 
 /**** Ambient outdoor air temperature sensor ****/
-echo file_put_contents("/var/log/sensors/28FF36EBA21704D7/sonoff_th","Outdoor Temperature \n");
-exec('curl -s http://192.168.10.66/api/temperature?apikey=61B8D62DC8DE6D2E >> /var/log/sensors/28FF36EBA21704D7/sonoff_th');
+echo file_put_contents("/var/www/html/sensors/28FF70876E1801EF/sonoff_th","Outdoor Temperature \n");
+exec('curl -s http://192.168.22.61/api/temperature/0?apikey=356F97ED779751B5 >> /var/www/html/sensors/28FF70876E1801EF/sonoff_th');
 
 if($debug == '1') { echo 'Temp Write works. <br />'; }
 
@@ -189,7 +189,7 @@ while($relay	= mysqli_fetch_assoc($query)) {
 
 if($debug == '1') { echo 'Heater Control works. <br />'; }
 
-/**** Heater Reset, to turn off the heater after 18 minutes ****/
+/**** Heater Reset, to turn off the heater after 18 minutes ****/ 
 
 $sql = "SELECT * FROM relays WHERE id !='0'";
 $query = mysqli_query($m_connect, $sql);
@@ -212,7 +212,7 @@ while($relay	= mysqli_fetch_assoc($query)) {
         }
       }
     }
-  }    
+  } 
 }
 if($debug == '1') { echo 'Heater reset works. <br />'; }
 ?>
