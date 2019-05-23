@@ -4,8 +4,8 @@ services:
     build: .
     command: initstart
     restart: always
-    #    volumes:
-    #      - .:/var/www/html
+    volumes:
+      - .:/var/www/html
     env_file: .env
     ports:
       - "$PHPAPP_PORT:80"

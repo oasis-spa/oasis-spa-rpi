@@ -3,4 +3,3 @@ sensors/*
 .env
 vendor/*
 !/vendor/.keep
-composer.phar
